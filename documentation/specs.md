@@ -45,8 +45,8 @@ A\* | O(\|V\|^2) | O(\|V\|^2)
 D\* | O(\|V\|^2) | O(\|V\|^2)
 
 ### Sources
-[CLRS](http://ressources.unisciel.fr/algoprog/s00aaroot/aa00module1/res/%5BCormen-AL2011%5DIntroduction_To_Algorithms-A3.pdf)
-[A-Star tutorial](http://web.mit.edu/eranki/www/tutorials/search/)
-[Red Blob Games](https://www.redblobgames.com/)
-[Kivinen, TKT20001](https://moodle.helsinki.fi/pluginfile.php/1726667/mod_resource/content/15/tira.pdf)
-Wiki, Stackoverflow
+*[CLRS](http://ressources.unisciel.fr/algoprog/s00aaroot/aa00module1/res/%5BCormen-AL2011%5DIntroduction_To_Algorithms-A3.pdf)
+*[A-Star tutorial](http://web.mit.edu/eranki/www/tutorials/search/)
+*[Red Blob Games](https://www.redblobgames.com/)
+*[Kivinen, TKT20001](https://moodle.helsinki.fi/pluginfile.php/1726667/mod_resource/content/15/tira.pdf)
+*Wiki, Stackoverflow
