@@ -23,3 +23,8 @@ I *might* also sacrifice accuracy to improve A\*'s performance to see how much
 time can be saved by finding a "good enough" path or how many iterations are
 required to achieve for example "best path with 99% confidence" and if the
 performance improvement is worth the uncertainty.
+
+### Links in the repo
+* [Source code](https://github.com/micaminoff/tahtialgovertailu/tree/master/tahti/src/main/java/tahti)
+* [Documentation](https://github.com/micaminoff/tahtialgovertailu/tree/master/documentation)
+* [Weekly reports](https://github.com/micaminoff/tahtialgovertailu/tree/master/reports)
