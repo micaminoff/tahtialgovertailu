@@ -2,6 +2,9 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 project.ext {
     junitVersion = '4.12'
 }
@@ -18,11 +21,6 @@ jacocoTestReport {
     reports {
         xml.enabled true
         html.enabled true
-    }
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it)
-        })
     }
 }
 
