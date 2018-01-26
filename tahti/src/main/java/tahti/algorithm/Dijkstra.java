@@ -38,18 +38,20 @@ public class Dijkstra {
     }
 
     /**
-     * Runs Dijkstra's algorithm
-     * Pseudocode from CLRS, Kivinen, and gitta.info
+     * Runs Dijkstra's algorithm Pseudocode from CLRS, Kivinen, and gitta.info
+     *
      * @param source the starting Vertex
      * @return A map of metric_name: value, for now only path Map
      */
     public Map run(Vertex source) {
         Map<String, Map> results = new HashMap<>();
-        // Init
         dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
         black = new HashSet<>();
         white = new HashSet<>();
+        
+        // Classic Dijkstra init: set distance to infinity and add all nodes
+        // to the set of unfinished nodes
         for (Vertex v : vertices) {
             dist_from_source.put(v, Integer.MAX_VALUE);
             if (v != source) {
@@ -60,13 +62,14 @@ public class Dijkstra {
         dist_from_source.put(source, 0);
 
         try {
-            while (!white.isEmpty()) {
+            while (!white.isEmpty()) {  // While we haven't explored all nodes
                 Vertex current = select_smallest_distance();
                 white.remove(current);
                 for (Vertex n : current.get_neighbors()) {
                     int path_weight = dist_from_source.get(current);
                     path_weight += dist_between(current, n);
                     if (path_weight < dist_from_source.get(n)) {
+                        // We found a better path! Update maps!
                         dist_from_source.put(n, path_weight);
                         parents.put(n, current);
                     }
@@ -96,8 +99,10 @@ public class Dijkstra {
         }
         return smallest;
     }
-    
+
     private int dist_between(Vertex source, Vertex target) throws Exception {
+        // Find the correct edge and return its weight.
+        // @TODO: Think about how this can be improved.
         for (Edge e : edges) {
             if (e.get_source().equals(source) && e.get_dest().equals(target)) {
                 return e.get_w();
