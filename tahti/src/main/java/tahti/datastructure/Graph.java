@@ -15,15 +15,17 @@ public class Graph {
     private List<Vertex> vertices;
     private List<Edge> edges;
     
+    
+    
     public Graph(List<Vertex> vertices, List<Edge> edges) {
         this.vertices = vertices;
         this.edges = edges;
     }
     
-    public List<Vertex> getVertices() {
+    public List<Vertex> get_vertices() {
         return vertices;
     }
-    public List<Edge> getEdges() {
+    public List<Edge> get_edges() {
         return edges;
     }
     

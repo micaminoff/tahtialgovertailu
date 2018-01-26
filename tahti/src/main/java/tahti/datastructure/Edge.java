@@ -16,6 +16,7 @@ public class Edge {
     private int weight;
     
     public Edge(Vertex a, Vertex b, int weight) {
+        a.add_neighbor(b);
         this.vertex_a = a;
         this.vertex_b = b;
         this.id = "" + (a.toString() + b.toString()).hashCode();
@@ -25,16 +26,16 @@ public class Edge {
         this(a, b, 1);
     }
     
-    public String getId() {
+    public String get_id() {
         return id;
     }
-    public int getWeight() {
+    public int get_w() {
         return weight;
     }
-    public Vertex getSource() {
+    public Vertex get_source() {
         return vertex_a;
     }
-    public Vertex getDestination() {
+    public Vertex get_dest() {
         return vertex_b;
     }
     

@@ -26,6 +26,8 @@ jacocoTestReport {
     }
 }
 
+check.dependsOn jacocoTestReport
+
 tasks.withType(Test) {
     systemProperties = System.properties
     systemProperties['user.dir'] = workingDir
