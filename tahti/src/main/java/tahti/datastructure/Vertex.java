@@ -18,11 +18,11 @@ public class Vertex {
     
     /**
      * Creates a vertex
-     * @param name the name to assign to this vertex. Gets a 'v_' prefix for easier hashcode comparison
+     * @param name the name to assign to this vertex. Should be a value 0-max_vertex_val
      */
     public Vertex(String name) {
         this.neighbors = new HashSet<>();
-        this.name = "v_" + name;
+        this.name = name;
     }
     public String get_name() {
         return name;

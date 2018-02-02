@@ -9,9 +9,11 @@ import java.lang.Exception;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import tahti.datastructure.*;
 
 /**
@@ -20,11 +22,10 @@ import tahti.datastructure.*;
  */
 public class Dijkstra {
 
-    private List<Vertex> vertices;
+    private Vertex[] vertices;
     private List<Edge> edges;
     private Map<Vertex, Vertex> parents;
     private Map<Vertex, Integer> dist_from_source;
-    private Set<Vertex> black;
     private Set<Vertex> white;
 
     /**
@@ -33,7 +34,7 @@ public class Dijkstra {
      * @param g A Graph consisting of Edges and Vertices
      */
     public Dijkstra(Graph g) {
-        this.vertices = new ArrayList<>(g.get_vertices());
+        this.vertices = g.get_vertices();
         this.edges = new ArrayList<>(g.get_edges());
     }
 
@@ -43,13 +44,12 @@ public class Dijkstra {
      * @param source the starting Vertex
      * @return A map of metric_name: value, for now only path Map
      */
-    public Map run(Vertex source) {
-        Map<String, Map> results = new HashMap<>();
+    public String run(Vertex source, Vertex target) {
         dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
-        black = new HashSet<>();
         white = new HashSet<>();
-        
+        System.out.println("init done");
+
         // Classic Dijkstra init: set distance to infinity and add all nodes
         // to the set of unfinished nodes
         for (Vertex v : vertices) {
@@ -63,7 +63,10 @@ public class Dijkstra {
 
         try {
             while (!white.isEmpty()) {  // While we haven't explored all nodes
-                Vertex current = select_smallest_distance();
+                Vertex current = select_closest_neighbor();
+                if (current == null || current == target) {
+                    return return_results(source, target);
+                }
                 white.remove(current);
                 for (Vertex n : current.get_neighbors()) {
                     int path_weight = dist_from_source.get(current);
@@ -79,12 +82,10 @@ public class Dijkstra {
             System.out.println(e);
             return null;
         }
-        results.put("Parents", parents);
-        results.put("Weights", dist_from_source);
-        return results;
+        return return_results(source, target);
     }
 
-    private Vertex select_smallest_distance() throws Exception {
+    private Vertex select_closest_neighbor() throws Exception {
         Vertex smallest = null;
         int smallest_distance = Integer.MAX_VALUE;
         for (Vertex v : white) {
@@ -94,21 +95,46 @@ public class Dijkstra {
                 smallest_distance = current_dist;
             }
         }
-        if (smallest == null) {
-            throw new Exception("No smallest found");
-        }
         return smallest;
     }
 
     private int dist_between(Vertex source, Vertex target) throws Exception {
         // Find the correct edge and return its weight.
-        // @TODO: Think about how this can be improved.
         for (Edge e : edges) {
             if (e.get_source().equals(source) && e.get_dest().equals(target)) {
                 return e.get_w();
             }
         }
         throw new Exception("No edge found.");
+    }
+
+    private String return_results(Vertex source, Vertex target) {
+        HashMap<String, Map> results = new HashMap<>();
+        Iterator it = dist_from_source.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            if ((int) entry.getValue() == 2147483647) {
+                it.remove();
+            }
+        }
+        Iterator it2 = parents.entrySet().iterator();
+        while (it2.hasNext()) {
+            Map.Entry entry2 = (Map.Entry) it2.next();
+            if (entry2.getValue() == null) {
+                it2.remove();
+            }
+        }
+        Stack<Vertex> path = new Stack<>();
+        Vertex current = target;
+        while (current != source) {
+            path.push(current);
+            current = parents.get(current);
+        }
+        String walk = "Path: " + source;
+        while (!path.empty()) {
+            walk += " - " + path.pop();
+        }
+        return walk + "\nTotal length: " + dist_from_source.get(target);
     }
 
 }
