@@ -13,13 +13,15 @@ import java.util.Comparator;
  */
 public class VertexComparator implements Comparator<Vertex>
 {
+    /**
+     * Compares two vertices' A* heuristic values
+     * @param x one vertex
+     * @param y the other vertex
+     * @return -1, 0, or 1 if x.f < y.f, x.f=y.f, or x.f > y.f
+     */
     @Override
     public int compare(Vertex x, Vertex y)
     {
-        // Assume neither string is null. Real code should
-        // probably be more robust
-        // You could also just return x.length() - y.length(),
-        // which would be more efficient.
         if (x.get_f()< y.get_f())
         {
             return -1;

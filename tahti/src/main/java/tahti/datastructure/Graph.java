@@ -20,6 +20,11 @@ public class Graph {
     private int columns;
     private int rows;
 
+    /**
+     * Generates a graph from the input file. The program assumes the exact same
+     * format as found here: http://www.movingai.com/benchmarks/
+     * @param path the path to the file
+     */
     public Graph(String path) {
         BufferedReader reader = null;
         try {
@@ -66,6 +71,11 @@ public class Graph {
         vertices[x][y] = new Vertex(x, y, cost);
     }
 
+    /**
+     * Leverages the grid system to generate a given vertices neighbors
+     * @param v the vertex whose neighbors we want
+     * @return v's neighbors
+     */
     public Vertex[] get_vertices_neighbors(Vertex v) {
         Vertex[] neighbors = new Vertex[4];
         for (int i = 0; i < 4; i++) {
@@ -88,6 +98,11 @@ public class Graph {
         return neighbors;
     }
 
+    /**
+     * Helper method to parse the file input
+     * @param c character to be interpreted
+     * @return an arbitrary weight (subject to change)
+     */
     private int find_weight(char c) {
         switch (c) {
             case '.':

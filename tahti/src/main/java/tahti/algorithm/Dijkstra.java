@@ -6,18 +6,16 @@
 package tahti.algorithm;
 
 import java.lang.Exception;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import tahti.datastructure.*;
 
 /**
- *
+ * A class implementing Dijkstra's pathfinding algorithm
  * @author Michael Aminoff
  */
 public class Dijkstra {
@@ -46,8 +44,10 @@ public class Dijkstra {
      */
     public String run(Vertex source, Vertex target) {
         if (source.get_cost() == -1) {
+            // Sanity check
             return "Invalid starting position";
         }
+        // Init datastructures
         dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
         white = new HashSet<>();
@@ -62,6 +62,7 @@ public class Dijkstra {
                 }
                 white.remove(current);
                 for (Vertex n : g.get_vertices_neighbors(current)) {
+                    // Iterate through neighbors and update distances
                     int path_weight = dist_from_source.get(current);
                     if (dist_to(n) == -1) {
                         white.remove(n);
@@ -82,6 +83,11 @@ public class Dijkstra {
         return return_results(source, target);
     }
     
+    /**
+     * Classic Dijkstra init. Sets all distances to max, adds all verteces to
+     * white, and sets source distance to 0
+     * @param source the starting vetrex
+     */
     private void init_single_source(Vertex source) {
         for (int i = 0; i < g.get_n_columns(); i++) {
             for (int j = 0; j < g.get_n_rows(); j++) {
@@ -93,6 +99,11 @@ public class Dijkstra {
         dist_from_source.put(source, 0);
     }
 
+    /**
+     * Finds the vertex in white closest to source
+     * @return the closest vertex
+     * @throws Exception 
+     */
     private Vertex select_closest_neighbor() throws Exception {
         Vertex smallest = null;
         int smallest_distance = Integer.MAX_VALUE;
@@ -106,10 +117,21 @@ public class Dijkstra {
         return smallest;
     }
 
+    /**
+     * Gets the cost to move to the given vertex
+     * @param target the vertex to move to
+     * @return the distance to said vertex
+     */
     private int dist_to(Vertex target) {
         return target.get_cost();
     }
 
+    /**
+     * Strips datastructures to the info that concerns us
+     * @param source from where
+     * @param target to where
+     * @return A string containing the path and total distance
+     */
     private String return_results(Vertex source, Vertex target) {
         Iterator it = dist_from_source.entrySet().iterator();
         while (it.hasNext()) {
