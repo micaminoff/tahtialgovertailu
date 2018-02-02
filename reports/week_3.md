@@ -21,4 +21,4 @@ Thus I had to redo everything, which led to an even more specific graph represen
 
 I'll still need to implement D\*.
 I've had major trouble with designing my program and realize I should have focussed more on that from the start.
-Now my testing is fairly lackluster.
+Now my testing is fairly lackluster. Actually nonexistant. I'll fix it over the weekend.
