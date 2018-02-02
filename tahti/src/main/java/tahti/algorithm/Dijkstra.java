@@ -22,11 +22,11 @@ import tahti.datastructure.*;
  */
 public class Dijkstra {
 
-    private Vertex[] vertices;
-    private List<Edge> edges;
+    private Vertex[][] vertices;
     private Map<Vertex, Vertex> parents;
     private Map<Vertex, Integer> dist_from_source;
     private Set<Vertex> white;
+    private Graph g;
 
     /**
      * Creates a Dijkstra algorithm instance
@@ -35,7 +35,7 @@ public class Dijkstra {
      */
     public Dijkstra(Graph g) {
         this.vertices = g.get_vertices();
-        this.edges = new ArrayList<>(g.get_edges());
+        this.g = g;
     }
 
     /**
@@ -45,21 +45,14 @@ public class Dijkstra {
      * @return A map of metric_name: value, for now only path Map
      */
     public String run(Vertex source, Vertex target) {
+        if (source.get_cost() == -1) {
+            return "Invalid starting position";
+        }
         dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
         white = new HashSet<>();
+        init_single_source(source);
         System.out.println("init done");
-
-        // Classic Dijkstra init: set distance to infinity and add all nodes
-        // to the set of unfinished nodes
-        for (Vertex v : vertices) {
-            dist_from_source.put(v, Integer.MAX_VALUE);
-            if (v != source) {
-                parents.put(v, null);
-            }
-            white.add(v);
-        }
-        dist_from_source.put(source, 0);
 
         try {
             while (!white.isEmpty()) {  // While we haven't explored all nodes
@@ -68,9 +61,13 @@ public class Dijkstra {
                     return return_results(source, target);
                 }
                 white.remove(current);
-                for (Vertex n : current.get_neighbors()) {
+                for (Vertex n : g.get_vertices_neighbors(current)) {
                     int path_weight = dist_from_source.get(current);
-                    path_weight += dist_between(current, n);
+                    if (dist_to(n) == -1) {
+                        white.remove(n);
+                        continue;
+                    }
+                    path_weight += dist_to(n);
                     if (path_weight < dist_from_source.get(n)) {
                         // We found a better path! Update maps!
                         dist_from_source.put(n, path_weight);
@@ -83,6 +80,17 @@ public class Dijkstra {
             return null;
         }
         return return_results(source, target);
+    }
+    
+    private void init_single_source(Vertex source) {
+        for (int i = 0; i < g.get_n_columns(); i++) {
+            for (int j = 0; j < g.get_n_rows(); j++) {
+                Vertex current = vertices[i][j];
+                dist_from_source.put(current, Integer.MAX_VALUE);
+                white.add(current);
+            }
+        }
+        dist_from_source.put(source, 0);
     }
 
     private Vertex select_closest_neighbor() throws Exception {
@@ -98,18 +106,11 @@ public class Dijkstra {
         return smallest;
     }
 
-    private int dist_between(Vertex source, Vertex target) throws Exception {
-        // Find the correct edge and return its weight.
-        for (Edge e : edges) {
-            if (e.get_source().equals(source) && e.get_dest().equals(target)) {
-                return e.get_w();
-            }
-        }
-        throw new Exception("No edge found.");
+    private int dist_to(Vertex target) {
+        return target.get_cost();
     }
 
     private String return_results(Vertex source, Vertex target) {
-        HashMap<String, Map> results = new HashMap<>();
         Iterator it = dist_from_source.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();

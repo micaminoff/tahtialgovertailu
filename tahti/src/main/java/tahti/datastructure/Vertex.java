@@ -5,41 +5,49 @@
  */
 package tahti.datastructure;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  *
  * @author Michael Aminoff
  */
 public class Vertex {
-    private String name;
-    private Set<Vertex> neighbors;
+    private String id;
+    private int move_cost;
+    private int f;
     
-    /**
-     * Creates a vertex
-     * @param name the name to assign to this vertex. Should be a value 0-max_vertex_val
-     */
-    public Vertex(String name) {
-        this.neighbors = new HashSet<>();
-        this.name = name;
+    public Vertex(int x, int y) {
+        this(x, y, 1);
     }
-    public String get_name() {
-        return name;
+    public Vertex(int x, int y, int move_cost) {
+        this.id = x + "," + y;
+        this.move_cost = move_cost;
     }
-    public Set<Vertex> get_neighbors() {
-        return neighbors;
+    
+    public int get_cost() {
+        return move_cost;
     }
-    public void add_neighbor(Vertex neighbor) {
-        neighbors.add(neighbor);
+    public int get_f() {
+        return f;
+    }
+    public void set_f(int value) {
+        f = value;
+    }
+    public int get_row() {
+        return Integer.parseInt(id.split(",")[1]);
+    }
+    public int get_col() {
+        return Integer.parseInt(id.split(",")[0]);
+    }
+    public int hashCode() {
+        return id.hashCode();
     }
     
     @Override
     public String toString() {
-        return name;
+        return id;
     }
+    
     @Override
     public boolean equals(Object v) {
-        return name.equals(v.toString());
+        return id.equals(v.toString());
     }
 }
