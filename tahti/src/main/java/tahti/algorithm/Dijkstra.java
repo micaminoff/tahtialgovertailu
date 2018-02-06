@@ -5,7 +5,6 @@
  */
 package tahti.algorithm;
 
-import java.lang.Exception;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,8 +36,7 @@ public class Dijkstra {
     }
 
     /**
-     * Runs Dijkstra's algorithm Pseudocode from CLRS, Kivinen, and gitta.info
-     *
+     * Runs Dijkstra's algorithm.
      * @param source the starting Vertex
      * @return A map of metric_name: value, for now only path Map
      */

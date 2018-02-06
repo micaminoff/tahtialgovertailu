@@ -75,13 +75,14 @@ public class Graph {
     }
 
     /**
-     * Leverages the grid system to generate a given vertices neighbors
+     * Leverages the grid system to generate a given vertex's neighbors
      * @param v the vertex whose neighbors we want
      * @return v's neighbors
      */
     public Vertex[] get_vertices_neighbors(Vertex v) {
         Vertex[] neighbors = new Vertex[4];
         for (int i = 0; i < 4; i++) {
+            // A vertex can have at most 4 neighbors
             neighbors[i] = null;
         }
         int x = v.get_col();
@@ -122,6 +123,11 @@ public class Graph {
         return -1;
     }
 
+    /**
+     * This is so intense it should probably never be used.
+     * @return string representation
+     */
+    @Override
     public String toString() {
         String rep = "";
         for (int i = 0; i < rows; i++) {

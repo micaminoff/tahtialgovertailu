@@ -6,7 +6,6 @@
 package tahti.algorithm;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -34,9 +33,15 @@ public class AStar {
 
     
     /**
-     * The main workhorse of the algorithm, goes through the graph and returns
-     * a string containing the best path and the total length from source to
-     * target
+     * The main workhorse of the algorithm, this method initially only knows about the start and
+     * goal and their relative positions on a map which is implemented as a 2d Vertex array.
+     * 
+     * We start by calculating the manhattan distance from the starting node to the goal. Then do
+     * the same for its neighbors. We then compare all neighbor sand select the node that minimizes:
+     * ditance traveled so far + estimated distance
+     * 
+     * We then add the originating node as the new node's parent, thus creating a path.
+     * 
      * @param source the starting vertex
      * @param target the goal
      * @return a string containing the best path and total length from source
@@ -61,7 +66,7 @@ public class AStar {
         
         // While we still have potential vertices to explore
         while (!open.isEmpty()) {
-            // Select the queue item with lowest f (seemingly best vertex)
+            // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
             if (current == target) {
                 // We've found the shortest path!
@@ -90,7 +95,8 @@ public class AStar {
     }
 
     /**
-     * Creates the h(n) of A*
+     * Creates the h(n) of A*, that is: creates the heuritsic by calculating the manhattan distance
+     * between two points in a coordinate system.
      * @param source from where
      * @param target to where
      * @return h(n) as manhattan distance
