@@ -50,3 +50,4 @@ D\* | O(\|V\|^2) | O(\|V\|^2)
 * [Red Blob Games](https://www.redblobgames.com/)
 * [Kivinen, TKT20001](https://moodle.helsinki.fi/pluginfile.php/1726667/mod_resource/content/15/tira.pdf)
 * Wiki, Stackoverflow
+* [Moving AI](http://www.movingai.com/benchmarks/) Maps
