@@ -1,60 +1,110 @@
-///*
-// * To change this license header, choose License Headers in Project Properties.
-// * To change this template file, choose Tools | Templates
-// * and open the template in the editor.
-// */
-//package tahti.datastructure;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import org.junit.Test;
-//import static org.junit.Assert.*;
-//
-///**
-// *
-// * @author Michael Aminoff
-// */
-//public class GraphTest {
-//    Vertex a = new Vertex("a");
-//    Vertex b = new Vertex("b");
-//    Edge e = new Edge(a, b, 3);
-//    List<Vertex> vertices = new ArrayList<>();
-//    List<Edge> edges = new ArrayList<>();
-//    
-//    public GraphTest() {
-//        this.vertices.add(a);
-//        this.vertices.add(b);
-//        this.edges.add(e);
-//    }
-//
-//    /**
-//     * Test of get_vertices method, of class Graph.
-//     */
-//    @Test
-//    public void testGet_vertices() {
-//        Graph g = new Graph(vertices, edges);
-//        List vertices = g.get_vertices();
-//        assertTrue(vertices.contains(a));
-//        assertTrue(vertices.contains(b));
-//    }
-//
-//    /**
-//     * Test of get_edges method, of class Graph.
-//     */
-//    @Test
-//    public void testGet_edges() {
-//        Graph g = new Graph(vertices, edges);
-//        List edges = g.get_edges();
-//        assertTrue(edges.contains(e));
-//    }
-//
-//    /**
-//     * Test of toString method, of class Graph.
-//     */
-//    @Test
-//    public void testToString() {
-//        Graph g = new Graph(vertices, edges);
-//        assertEquals(g.toString(), "v_a - v_b, w=3\n");
-//    }
-//    
-//}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tahti.datastructure;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author michael
+ */
+public class GraphTest {
+    private Graph g;
+    
+    public GraphTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+        this.g = new Graph("./src/resources/brc100d.map");
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of get_vertices method, of class Graph.
+     */
+    @Test
+    public void testGet_vertices() {
+        System.out.println("get_vertices");
+        Vertex[][] vertices = g.get_vertices();
+        // TODO review the generated test code and remove the default call to fail.
+        assertEquals(vertices.length, 512);
+    }
+
+    /**
+     * Test of get_n_columns method, of class Graph.
+     */
+    @Test
+    public void testGet_n_columns() {
+        System.out.println("get_n_columns");
+        int expResult = 512;
+        int result = g.get_n_columns();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of get_n_rows method, of class Graph.
+     */
+    @Test
+    public void testGet_n_rows() {
+        System.out.println("get_n_rows");
+        int expResult = 492;
+        int result = g.get_n_rows();
+        System.out.println(result);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of get_vertices_neighbors method, of class Graph.
+     */
+    @Test
+    public void testGet_vertices_neighbors() {
+        System.out.println("get_vertices_neighbors");
+        Vertex v = g.get_vertex_at(54, 56);
+        int expResult = 4;
+        int result = g.get_vertices_neighbors(v).length;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of toString method, of class Graph.
+     */
+    @Test
+    public void testToString() {
+        // Too heavy for real testing
+        assertTrue(true);
+    }
+
+    /**
+     * Test of get_vertex_at method, of class Graph.
+     */
+    @Test
+    public void testGet_vertex_at() {
+        System.out.println("get_vertex_at");
+        int x = 54;
+        int y = 54;
+        Vertex result = g.get_vertex_at(x, y);
+        assertTrue(result != null);
+    }
+    
+}

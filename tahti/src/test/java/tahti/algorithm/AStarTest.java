@@ -18,11 +18,11 @@ import tahti.datastructure.Vertex;
  *
  * @author michael
  */
-public class DijkstraTest {
+public class AStarTest {
     private Graph g;
-    private Dijkstra d;
+    private AStar a;
     
-    public DijkstraTest() {
+    public AStarTest() {
     }
     
     @BeforeClass
@@ -36,7 +36,7 @@ public class DijkstraTest {
     @Before
     public void setUp() {
         g = new Graph("./src/resources/brc100d.map");
-        d = new Dijkstra(g);
+        a = new AStar(g);
     }
     
     @After
@@ -44,14 +44,14 @@ public class DijkstraTest {
     }
 
     /**
-     * Test of run method, of class Dijkstra.
+     * Test of run method, of class AStar.
      */
     @Test
     public void testRun() {
         System.out.println("run");
         Vertex source = g.get_vertex_at(208, 57);
         Vertex target = g.get_vertex_at(212, 57);
-        String result = d.run(source, target);
+        String result = a.run(source, target);
         assertTrue(result.contains("Total length: 4"));
     }
     

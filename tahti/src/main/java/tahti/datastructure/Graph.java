@@ -66,6 +66,9 @@ public class Graph {
     public int get_n_rows() {
         return rows;
     }
+    public Vertex get_vertex_at(int x, int y) {
+        return vertices[y][x];
+    }
 
     private void add_vertex(int x, int y, int cost) {
         vertices[x][y] = new Vertex(x, y, cost);
