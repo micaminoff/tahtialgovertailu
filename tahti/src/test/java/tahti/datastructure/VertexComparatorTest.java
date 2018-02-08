@@ -52,19 +52,16 @@ public class VertexComparatorTest {
      * Test of compare method, of class VertexComparator.
      */
     @Test
-    public void testCompare_minus1() {
-        System.out.println("compare");
-        assertEquals(-1, comp.compare(smallest_f, largest_f));
+    public void testCompare_smaller() {
+        assertTrue(comp.compare(smallest_f, largest_f) < 0);
     }
     @Test
     public void testCompare_zero() {
-        System.out.println("compare");
         assertEquals(0, comp.compare(largest_f, largest_f2));
     }
     @Test
-    public void testCompare_1() {
-        System.out.println("compare");
-        assertEquals(1, comp.compare(largest_f, smallest_f));
+    public void testCompare_larger() {
+        assertTrue(comp.compare(largest_f, smallest_f) > 0);
     }
     
 }

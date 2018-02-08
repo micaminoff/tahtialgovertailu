@@ -128,7 +128,7 @@ public class Graph {
             default:
                 break;
         }
-        return -1;
+        return Integer.MAX_VALUE;
     }
 
     /**

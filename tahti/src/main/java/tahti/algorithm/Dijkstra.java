@@ -6,12 +6,10 @@
 package tahti.algorithm;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.PriorityQueue;
 import tahti.datastructure.*;
+import tahti.datastructure.VertexComparator;
 
 /**
  * A class implementing Dijkstra's pathfinding algorithm
@@ -21,8 +19,7 @@ public class Dijkstra implements SearchAlgorithm {
 
     private Vertex[][] vertices;
     private Map<Vertex, Vertex> parents;
-    private Map<Vertex, Integer> dist_from_source;
-    private Set<Vertex> white;
+    private PriorityQueue<Vertex> white;
     private Graph g;
     private Vertex target;
 
@@ -41,35 +38,39 @@ public class Dijkstra implements SearchAlgorithm {
      * @param source the starting Vertex
      */
     public void run(Vertex source, Vertex target) {
-        if (source.get_cost() == -1) {
+        if (source.get_cost() == Integer.MAX_VALUE) {
             // Sanity check
             return;
         }
         // Init datastructures
         this.target = target;
-        dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
-        white = new HashSet<>();
+        white = new PriorityQueue<>(new VertexComparator());
         init_single_source(source);
 
         try {
             while (!white.isEmpty()) {  // While we haven't explored all nodes
-                Vertex current = select_closest_neighbor();
+                Vertex current = white.poll();
                 if (current == null || current == target) {
                     return;
+                }
+                if (current.get_cost() == Integer.MAX_VALUE) {
+                    white.remove(current);
+                    continue;
                 }
                 white.remove(current);
                 for (Vertex n : g.get_vertices_neighbors(current)) {
                     // Iterate through neighbors and update distances
-                    int path_weight = dist_from_source.get(current);
-                    if (dist_to(n) == -1) {
+                    int path_weight = current.get_f();
+                    if (n.get_cost() == Integer.MAX_VALUE) {
                         white.remove(n);
                         continue;
                     }
-                    path_weight += dist_to(n);
-                    if (path_weight < dist_from_source.get(n)) {
+                    path_weight += n.get_cost();
+                    if (path_weight < n.get_f()) {
                         // We found a better path! Update maps!
-                        dist_from_source.put(n, path_weight);
+                        n.set_f(path_weight);
+                        white.add(n);
                         parents.put(n, current);
                     }
                 }
@@ -88,39 +89,15 @@ public class Dijkstra implements SearchAlgorithm {
         for (int i = 0; i < g.get_n_columns(); i++) {
             for (int j = 0; j < g.get_n_rows(); j++) {
                 Vertex current = vertices[i][j];
-                dist_from_source.put(current, Integer.MAX_VALUE);
-                white.add(current);
+                if (current != source) {
+                    current.set_f(Integer.MAX_VALUE);
+                }
             }
         }
-        dist_from_source.put(source, 0);
+        source.set_f(0);
+        white.add(source);
     }
 
-    /**
-     * Finds the vertex in white closest to source
-     * @return the closest vertex
-     * @throws Exception 
-     */
-    private Vertex select_closest_neighbor() throws Exception {
-        Vertex smallest = null;
-        int smallest_distance = Integer.MAX_VALUE;
-        for (Vertex v : white) {
-            int current_dist = dist_from_source.get(v);
-            if (current_dist < smallest_distance) {
-                smallest = v;
-                smallest_distance = current_dist;
-            }
-        }
-        return smallest;
-    }
-
-    /**
-     * Gets the cost to move to the given vertex
-     * @param target the vertex to move to
-     * @return the distance to said vertex
-     */
-    private int dist_to(Vertex target) {
-        return target.get_cost();
-    }
 
     public int get_path_length() {
         Vertex current = parents.get(target);

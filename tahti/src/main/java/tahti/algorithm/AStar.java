@@ -45,7 +45,7 @@ public class AStar implements SearchAlgorithm {
      * @param target the goal
      */
     public void run(Vertex source, Vertex target) {
-        if (source.get_cost() == -1) {
+        if (source.get_cost() == Integer.MAX_VALUE) {
             // Sanity check, source cannot be impassable terrain
             return;
         }
@@ -65,7 +65,7 @@ public class AStar implements SearchAlgorithm {
         while (!open.isEmpty()) {
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
-            if (current.get_cost() == -1) {
+            if (current.get_cost() == Integer.MAX_VALUE) {
                 throw new java.lang.IllegalStateException("Error: Source is impassable");
             }
             if (current == target) {
@@ -77,7 +77,7 @@ public class AStar implements SearchAlgorithm {
                 if (v == null) {
                     continue;
                 }
-                if (v.get_cost() == -1) {
+                if (v.get_cost() == Integer.MAX_VALUE) {
                     continue;
                 }
                 int cost = dist_from_source.get(current) + v.get_cost();

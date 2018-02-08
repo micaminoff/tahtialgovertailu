@@ -44,6 +44,7 @@ public class StatCollector {
                 long start_time = System.currentTimeMillis();
                 a.run(target, source);
                 times[i] = System.currentTimeMillis() - start_time;
+                g.reset_graph();
             }
             int cols = g.get_n_columns();
             int rows = g.get_n_rows();

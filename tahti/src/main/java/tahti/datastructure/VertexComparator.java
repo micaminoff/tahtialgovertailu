@@ -22,14 +22,6 @@ public class VertexComparator implements Comparator<Vertex>
     @Override
     public int compare(Vertex x, Vertex y)
     {
-        if (x.get_f() < y.get_f())
-        {
-            return -1;
-        }
-        if (x.get_f() > y.get_f())
-        {
-            return 1;
-        }
-        return 0;
+        return x.get_f() - y.get_f();
     }
 }
