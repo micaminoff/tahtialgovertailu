@@ -80,7 +80,7 @@ public class GraphTest {
     @Test
     public void testGet_vertices_neighbors() {
         System.out.println("get_vertices_neighbors");
-        Vertex v = g.get_vertex_at(54, 56);
+        Vertex v = g.get_vertex_at(56, 54);
         int expResult = 4;
         int result = g.get_vertices_neighbors(v).length;
         assertEquals(expResult, result);
@@ -103,7 +103,7 @@ public class GraphTest {
         System.out.println("get_vertex_at");
         int x = 54;
         int y = 54;
-        Vertex result = g.get_vertex_at(x, y);
+        Vertex result = g.get_vertex_at(y, x);
         assertTrue(result != null);
     }
     

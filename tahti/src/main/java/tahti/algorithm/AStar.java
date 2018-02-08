@@ -6,84 +6,82 @@
 package tahti.algorithm;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Stack;
 import tahti.datastructure.Graph;
 import tahti.datastructure.Vertex;
 import tahti.datastructure.VertexComparator;
 
 /**
  * A class implementing the A*-search algorithm
+ *
  * @author Michael Aminoff
  */
-public class AStar {
+public class AStar implements SearchAlgorithm {
 
     private Vertex[][] vertices;
     private Map<Vertex, Vertex> parents;
     private Map<Vertex, Integer> dist_from_source;
     private PriorityQueue<Vertex> open;
     private Graph g;
+    private Vertex target;
 
     public AStar(Graph g) {
         this.g = g;
         vertices = g.get_vertices();
     }
 
-    
     /**
      * The main workhorse of the algorithm, this method initially only knows about the start and
      * goal and their relative positions on a map which is implemented as a 2d Vertex array.
-     * 
+     *
      * We start by calculating the manhattan distance from the starting node to the goal. Then do
      * the same for its neighbors. We then compare all neighbor sand select the node that minimizes:
      * ditance traveled so far + estimated distance
-     * 
+     *
      * We then add the originating node as the new node's parent, thus creating a path.
-     * 
+     *
      * @param source the starting vertex
      * @param target the goal
-     * @return a string containing the best path and total length from source
-     * to goal
      */
-    public String run(Vertex source, Vertex target) {
+    public void run(Vertex source, Vertex target) {
         if (source.get_cost() == -1) {
             // Sanity check, source cannot be impassable terrain
-            return "Invalid starting position";
+            return;
         }
-        
+
         // Initialize datastructures
+        this.target = target;
         parents = new HashMap<>();
         dist_from_source = new HashMap<>();
         open = new PriorityQueue<>(new VertexComparator());
-        
+
         // Add the source to queue and set it's priority to 0
         open.add(source);
         dist_from_source.put(source, 0);
-        System.out.println("Init done");
-        
-        
+        parents.put(source, null);
+
         // While we still have potential vertices to explore
         while (!open.isEmpty()) {
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
+            if (current.get_cost() == -1) {
+                throw new java.lang.IllegalStateException("Error: Source is impassable");
+            }
             if (current == target) {
                 // We've found the shortest path!
-                return return_results(source, target);
+                return;
             }
             for (Vertex v : g.get_vertices_neighbors(current)) {
-                if (v.get_cost() == -1) {
-                    // Skip this vertex if it's impassable
+                // Total cost from source to this neighbor
+                if (v == null) {
                     continue;
                 }
-                // Total cost from source to this neighbor
-                int cost = dist_from_source.get(current) + v.get_cost();
-                if (dist_from_source.containsKey(v) && cost > dist_from_source.get(v)) {
-                    // If we already have the best path to this vertex, skip.
+                if (v.get_cost() == -1) {
                     continue;
-                } else {
-                    // Update estimates, distances from source and path
+                }
+                int cost = dist_from_source.get(current) + v.get_cost();
+                if (!dist_from_source.containsKey(v) || cost < dist_from_source.get(v)) {
                     dist_from_source.put(v, cost);
                     v.set_f(cost + make_estimate(v, target));
                     open.add(v);
@@ -91,12 +89,12 @@ public class AStar {
                 }
             }
         }
-        return return_results(source, target);
     }
 
     /**
      * Creates the h(n) of A*, that is: creates the heuritsic by calculating the manhattan distance
      * between two points in a coordinate system.
+     *
      * @param source from where
      * @param target to where
      * @return h(n) as manhattan distance
@@ -106,31 +104,27 @@ public class AStar {
                 + Math.abs(source.get_row() + target.get_row()));
     }
 
-    /**
-     * Strips datastructures to the info that concerns us
-     * @param source from where
-     * @param target to where
-     * @return A string containing the path and total distance
-     */
-    private String return_results(Vertex source, Vertex target) {
-        Iterator it2 = parents.entrySet().iterator();
-        while (it2.hasNext()) {
-            Map.Entry entry2 = (Map.Entry) it2.next();
-            if (entry2.getValue() == null) {
-                it2.remove();
-            }
-        }
-        Stack<Vertex> path = new Stack<>();
-        Vertex current = target;
-        while (current != source) {
-            path.push(current);
+    public int get_path_length() {
+        Vertex current = parents.get(target);
+        int i = 0;
+        while (current != null) {
+            i++;
             current = parents.get(current);
         }
-        String walk = "Path: " + source;
-        while (!path.empty()) {
-            walk += " - " + path.pop();
-        }
-        return walk + "\nTotal length: " + dist_from_source.get(target);
+        return i;
     }
 
+    public String get_path() {
+        Vertex current = parents.get(target);
+        String path = ""+current;
+        while (current != null) {
+            path += " - " + current;
+            current = parents.get(current);
+        }
+        return path;
+    }
+
+    public int get_vertex_count() {
+        return parents.size();
+    }
 }

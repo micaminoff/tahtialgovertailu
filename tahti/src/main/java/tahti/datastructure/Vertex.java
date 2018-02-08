@@ -16,20 +16,20 @@ public class Vertex {
     
     /**
      * Creates a vertex with default movecost of 1
-     * @param x which column this vertex resides in in the graph
-     * @param y which row ---"---
+     * @param col which column this vertex resides in in the graph
+     * @param row which row ---"---
      */
-    public Vertex(int x, int y) {
-        this(x, y, 1);
+    public Vertex(int col, int row) {
+        this(col, row, 1);
     }
     /**
      * Creates a vertex with custom movecost
-     * @param x which column this vertex resides in in the graph
-     * @param y which row ---"---
+     * @param col which column this vertex resides in in the graph
+     * @param row which row ---"---
      * @param move_cost the cost of the terrain in this tile
      */
-    public Vertex(int x, int y, int move_cost) {
-        this.id = x + "," + y;
+    public Vertex(int col, int row, int move_cost) {
+        this.id = col + "," + row;
         this.move_cost = move_cost;
     }
     

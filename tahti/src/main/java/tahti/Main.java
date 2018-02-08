@@ -22,12 +22,20 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        String path = "./src/resources/brc100d.map";
-        Graph g = new Graph(path);
-        AStar a = new AStar(g);
-        Dijkstra d = new Dijkstra(g);
-        String dijkstra_result = d.run(g.get_vertices()[57][208], g.get_vertices()[149][234]);
-        String astar_result = a.run(g.get_vertices()[57][208], g.get_vertices()[149][234]);
-        System.out.println(dijkstra_result + "\n" + astar_result + "\n" + astar_result.equals(dijkstra_result));
+        StatCollector s = new StatCollector();
+        s.routine_1();
+        s.routine_2();
+//        String path = "./src/resources/brc100d.map";
+//        Graph g = new Graph(path);
+//        AStar a = new AStar(g);
+//        //Dijkstra d = new Dijkstra(g);
+//        //String dijkstra_result = d.run(g.get_vertices()[57][208], g.get_vertices()[149][234]);
+//        System.out.println(a.getClass().getName());
+//        a.run(g.get_vertices()[57][208], g.get_vertices()[149][234]);
+//        System.out.println("Astar done");
+//        System.out.println("Path: " + a.get_path());
+//        System.out.println("Path length: " + a.get_path_length());
+//        System.out.println("Vertices opened: " + a.get_vertex_count());
+        
     }
 }

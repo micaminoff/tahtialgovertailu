@@ -36,12 +36,12 @@ public class Graph {
             reader.readLine();
             this.vertices = new Vertex[columns][rows];
             String line;
-            int y = 0;
+            int row = 0;
             while ((line = reader.readLine()) != null) {
-                for (int x = 0; x < columns; x++) {
-                    add_vertex(x, y, find_weight(line.charAt(x)));
+                for (int col = 0; col < columns; col++) {
+                    add_vertex(col, row, find_weight(line.charAt(col)));
                 }
-                y++;
+                row++;
             }
 
         } catch (IOException e) {
@@ -66,12 +66,12 @@ public class Graph {
     public int get_n_rows() {
         return rows;
     }
-    public Vertex get_vertex_at(int x, int y) {
-        return vertices[y][x];
+    public Vertex get_vertex_at(int row, int col) {
+        return vertices[row][col];
     }
 
-    private void add_vertex(int x, int y, int cost) {
-        vertices[x][y] = new Vertex(x, y, cost);
+    private void add_vertex(int col, int row, int cost) {
+        vertices[col][row] = new Vertex(col, row, cost);
     }
 
     /**
@@ -85,21 +85,29 @@ public class Graph {
             // A vertex can have at most 4 neighbors
             neighbors[i] = null;
         }
-        int x = v.get_col();
-        int y = v.get_row();
-        if (y > 0) {
-            neighbors[0] = vertices[x][y - 1];
+        int col = v.get_col();
+        int row = v.get_row();
+        if (row > 0) {
+            neighbors[0] = vertices[col][row - 1];
         }
-        if (x > 0) {
-            neighbors[1] = vertices[x - 1][y];
+        if (col > 0) {
+            neighbors[1] = vertices[col - 1][row];
         }
-        if (y < rows - 1) {
-            neighbors[2] = vertices[x][y + 1];
+        if (row < rows - 1) {
+            neighbors[2] = vertices[col][row + 1];
         }
-        if (x < columns - 1) {
-            neighbors[3] = vertices[x + 1][y];
+        if (col < columns - 1) {
+            neighbors[3] = vertices[col + 1][row];
         }
         return neighbors;
+    }
+    
+    public void reset_graph() {
+        for (Vertex[] vs : vertices) {
+            for (Vertex v : vs) {
+                v.set_f(0);
+            }
+        }
     }
 
     /**

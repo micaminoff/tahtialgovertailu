@@ -49,10 +49,10 @@ public class DijkstraTest {
     @Test
     public void testRun() {
         System.out.println("run");
-        Vertex source = g.get_vertex_at(208, 57);
-        Vertex target = g.get_vertex_at(212, 57);
-        String result = d.run(source, target);
-        assertTrue(result.contains("Total length: 4"));
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertTrue(d.get_path_length() == 4);
     }
     
 }

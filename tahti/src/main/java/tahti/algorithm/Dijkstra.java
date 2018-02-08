@@ -17,13 +17,14 @@ import tahti.datastructure.*;
  * A class implementing Dijkstra's pathfinding algorithm
  * @author Michael Aminoff
  */
-public class Dijkstra {
+public class Dijkstra implements SearchAlgorithm {
 
     private Vertex[][] vertices;
     private Map<Vertex, Vertex> parents;
     private Map<Vertex, Integer> dist_from_source;
     private Set<Vertex> white;
     private Graph g;
+    private Vertex target;
 
     /**
      * Creates a Dijkstra algorithm instance
@@ -38,25 +39,24 @@ public class Dijkstra {
     /**
      * Runs Dijkstra's algorithm.
      * @param source the starting Vertex
-     * @return A map of metric_name: value, for now only path Map
      */
-    public String run(Vertex source, Vertex target) {
+    public void run(Vertex source, Vertex target) {
         if (source.get_cost() == -1) {
             // Sanity check
-            return "Invalid starting position";
+            return;
         }
         // Init datastructures
+        this.target = target;
         dist_from_source = new HashMap<Vertex, Integer>();
         parents = new HashMap<Vertex, Vertex>();
         white = new HashSet<>();
         init_single_source(source);
-        System.out.println("init done");
 
         try {
             while (!white.isEmpty()) {  // While we haven't explored all nodes
                 Vertex current = select_closest_neighbor();
                 if (current == null || current == target) {
-                    return return_results(source, target);
+                    return;
                 }
                 white.remove(current);
                 for (Vertex n : g.get_vertices_neighbors(current)) {
@@ -76,9 +76,7 @@ public class Dijkstra {
             }
         } catch (Exception e) {
             System.out.println(e);
-            return null;
         }
-        return return_results(source, target);
     }
     
     /**
@@ -124,38 +122,27 @@ public class Dijkstra {
         return target.get_cost();
     }
 
-    /**
-     * Strips datastructures to the info that concerns us
-     * @param source from where
-     * @param target to where
-     * @return A string containing the path and total distance
-     */
-    private String return_results(Vertex source, Vertex target) {
-        Iterator it = dist_from_source.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            if ((int) entry.getValue() == 2147483647) {
-                it.remove();
-            }
-        }
-        Iterator it2 = parents.entrySet().iterator();
-        while (it2.hasNext()) {
-            Map.Entry entry2 = (Map.Entry) it2.next();
-            if (entry2.getValue() == null) {
-                it2.remove();
-            }
-        }
-        Stack<Vertex> path = new Stack<>();
-        Vertex current = target;
-        while (current != source) {
-            path.push(current);
+    public int get_path_length() {
+        Vertex current = parents.get(target);
+        int i = 0;
+        while (current != null) {
+            i++;
             current = parents.get(current);
         }
-        String walk = "Path: " + source;
-        while (!path.empty()) {
-            walk += " - " + path.pop();
-        }
-        return walk + "\nTotal length: " + dist_from_source.get(target);
+        return i;
     }
 
+    public String get_path() {
+        Vertex current = parents.get(target);
+        String path = ""+current;
+        while (current != null) {
+            path += " - " + current;
+            current = parents.get(current);
+        }
+        return path;
+    }
+
+    public int get_vertex_count() {
+        return parents.size();
+    }
 }
