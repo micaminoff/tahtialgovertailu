@@ -96,6 +96,7 @@ public class Dijkstra implements SearchAlgorithm {
         }
         source.set_f(0);
         white.add(source);
+        parents.put(source, null);
     }
 
 
