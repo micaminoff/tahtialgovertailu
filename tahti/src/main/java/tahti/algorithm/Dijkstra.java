@@ -17,7 +17,7 @@ public class Dijkstra implements SearchAlgorithm {
 
     private Vertex[][] vertices;
     private VertexMap parents;
-    private PriorityQueue<Vertex> white;
+    private PriorityQ white;
     private Graph g;
     private Vertex target;
 
@@ -43,27 +43,22 @@ public class Dijkstra implements SearchAlgorithm {
         // Init datastructures
         this.target = target;
         parents = new VertexMap<>();
-        white = new PriorityQueue<>(new VertexComparator());
+        white = new PriorityQ();
         init_single_source(source);
 
         try {
-            while (!white.isEmpty()) {  // While we haven't explored all nodes
+            while (!white.is_empty()) {  // While we haven't explored all nodes
                 Vertex current = white.poll();
                 if (current == null || current == target) {
                     return;
                 }
                 if (current.get_cost() == Integer.MAX_VALUE) {
-                    white.remove(current);
                     continue;
                 }
-                white.remove(current);
                 for (Vertex n : g.get_vertices_neighbors(current)) {
                     // Iterate through neighbors and update distances
                     int path_weight = current.get_f();
-                    if (n.get_cost() == Integer.MAX_VALUE) {
-                        white.remove(n);
-                        continue;
-                    }
+
                     path_weight += n.get_cost();
                     if (path_weight < n.get_f()) {
                         // We found a better path! Update maps!

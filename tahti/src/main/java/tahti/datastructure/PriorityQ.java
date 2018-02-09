@@ -48,6 +48,10 @@ public class PriorityQ {
         }
         return item.get_vertex();
     }
+    
+    public boolean is_empty() {
+        return populated == 0;
+    }
 
     private void propagate_up() {
         int current = populated;
@@ -58,12 +62,6 @@ public class PriorityQ {
         }
         table[current] = q;
 
-    }
-
-    private void swap(int x, int y) {
-        QItem helper = table[x];
-        table[x] = table[y];
-        table[y] = helper;
     }
 
     private void increase_size() {

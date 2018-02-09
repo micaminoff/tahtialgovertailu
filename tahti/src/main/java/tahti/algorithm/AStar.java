@@ -5,10 +5,9 @@
  */
 package tahti.algorithm;
 
-import java.util.PriorityQueue;
 import tahti.datastructure.Graph;
+import tahti.datastructure.PriorityQ;
 import tahti.datastructure.Vertex;
-import tahti.datastructure.VertexComparator;
 import tahti.datastructure.VertexMap;
 
 /**
@@ -20,7 +19,7 @@ public class AStar implements SearchAlgorithm {
 
     private VertexMap parents;
     private VertexMap dist_from_source;
-    private PriorityQueue<Vertex> open;
+    private PriorityQ open;
     private Graph g;
     private Vertex target;
 
@@ -51,7 +50,7 @@ public class AStar implements SearchAlgorithm {
         this.target = target;
         parents = new VertexMap<>();
         dist_from_source = new VertexMap<>();
-        open = new PriorityQueue<>(new VertexComparator());
+        open = new PriorityQ();
 
         // Add the source to queue and set it's priority to 0
         open.add(source);
@@ -59,7 +58,7 @@ public class AStar implements SearchAlgorithm {
         parents.put(source, null);
 
         // While we still have potential vertices to explore
-        while (!open.isEmpty()) {
+        while (!open.is_empty()) {
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
             if (current.get_cost() == Integer.MAX_VALUE) {
