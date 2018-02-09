@@ -5,9 +5,7 @@
  */
 package tahti.algorithm;
 
-import java.util.PriorityQueue;
 import tahti.datastructure.*;
-import tahti.datastructure.VertexComparator;
 
 /**
  * A class implementing Dijkstra's pathfinding algorithm
