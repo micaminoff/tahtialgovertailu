@@ -24,7 +24,7 @@ public class StatCollector {
         Graph g = new Graph("./src/resources/brc100d.map");
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(149, 234);
-        int reps = 10;
+        int reps = 20;
         SearchAlgorithm[] algos = new SearchAlgorithm[1];
         algos[0] = new AStar(g);
         run_routine(g, source, target, reps, algos);
@@ -47,7 +47,7 @@ public class StatCollector {
         Graph g = new Graph("./src/resources/brc100d.map");
         Vertex source = g.get_vertex_at(130, 350);
         Vertex target = g.get_vertex_at(270, 172);
-        int reps = 100;
+        int reps = 20;
         SearchAlgorithm[] algos = new SearchAlgorithm[2];
         algos[0] = new AStar(g);
         algos[1] = new Dijkstra(g);
