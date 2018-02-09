@@ -5,9 +5,6 @@
  */
 package tahti;
 
-import tahti.algorithm.AStar;
-import tahti.algorithm.Dijkstra;
-import tahti.datastructure.Graph;
 
 /**
  *

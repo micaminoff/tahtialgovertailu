@@ -37,7 +37,7 @@ public class StatCollector {
         Graph g = new Graph("./src/resources/brc100d.map");
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(149, 234);
-        int reps = 100;
+        int reps = 1;
         SearchAlgorithm[] algos = new SearchAlgorithm[1];
         algos[0] = new Dijkstra(g);
         run_routine(g, source, target, reps, algos);

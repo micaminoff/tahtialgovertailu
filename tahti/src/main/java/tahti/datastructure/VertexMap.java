@@ -14,15 +14,17 @@ public class VertexMap {
     private int max_size;
     private int populated;
     private MapEntry[] table;
+    private double load_factor;
 
     public VertexMap(int max_size) {
         this.max_size = max_size;
         this.table = new MapEntry[max_size];
         this.populated = 0;
+        this.load_factor = 0.75;
     }
 
     public VertexMap() {
-        this(256);
+        this(2459);
     }
 
     public void put(Vertex key, Vertex value) {
@@ -47,6 +49,10 @@ public class VertexMap {
             current.next = entry;
         }
         populated++;
+        if (populated > load_factor * max_size) {
+            max_size *= 2;
+            rebuild();
+        }
     }
 
     public Vertex get(Vertex key) {
@@ -69,6 +75,22 @@ public class VertexMap {
         return populated;
     }
 
+    private void rebuild() {
+        MapEntry[] old_table = table.clone();
+        table = new MapEntry[max_size];
+        for (MapEntry m : old_table) {
+            if (m == null) {
+                continue;
+            }
+            put(m.key, m.value);
+            MapEntry current = m;
+            while (current.get_next() != null) {
+                current = current.get_next();
+                put(current.key, current.value);
+            }
+        }
+    }
+
     private class MapEntry {
 
         private Vertex key;
@@ -78,6 +100,7 @@ public class VertexMap {
         public MapEntry(Vertex key, Vertex value) {
             this.key = key;
             this.value = value;
+            this.next = null;
         }
 
         public Vertex get_key() {
