@@ -49,8 +49,8 @@ public class AStar implements SearchAlgorithm {
 
         // Initialize datastructures
         this.target = target;
-        parents = new VertexMap<Vertex>();
-        dist_from_source = new VertexMap<Integer>();
+        parents = new VertexMap<>();
+        dist_from_source = new VertexMap<>();
         open = new PriorityQueue<>(new VertexComparator());
 
         // Add the source to queue and set it's priority to 0

@@ -42,7 +42,7 @@ public class Dijkstra implements SearchAlgorithm {
         }
         // Init datastructures
         this.target = target;
-        parents = new VertexMap();
+        parents = new VertexMap<>();
         white = new PriorityQueue<>(new VertexComparator());
         init_single_source(source);
 

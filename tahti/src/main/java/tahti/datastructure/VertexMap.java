@@ -78,7 +78,7 @@ public class VertexMap<V> {
      * Invoked if we've entered a new element in the table.
      * Checks if the load on the table is too high and rebuild as necessary.
      */
-    public void update() {
+    private void update() {
         populated++;
         if (populated > load_factor * max_size) {
             // Doubles the size of the table
