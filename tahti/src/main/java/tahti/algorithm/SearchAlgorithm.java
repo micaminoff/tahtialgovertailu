@@ -17,6 +17,8 @@ public interface SearchAlgorithm {
     
     int get_path_length();
     
+    int get_path_weight();
+    
     String get_path();
     
     int get_vertex_count();

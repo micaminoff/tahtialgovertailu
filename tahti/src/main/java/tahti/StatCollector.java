@@ -83,8 +83,9 @@ public class StatCollector {
             int rows = g.get_n_rows();
             String name = a.getClass().getSimpleName();
             int path_length = a.get_path_length();
+            int path_weight = a.get_path_weight();
             int opened_vertices = a.get_vertex_count();
-            print_results(name, cols, rows, path_length, opened_vertices, times);
+            print_results(name, cols, rows, path_length, path_weight, opened_vertices, times);
         }
     }
     
@@ -97,9 +98,9 @@ public class StatCollector {
      * @param opened_vertices the amount of examined vertices
      * @param times an array containing all recorded times for each rep
      */
-    private void print_results(String name, int cols, int rows, int path_length, int opened_vertices, long[] times) {
+    private void print_results(String name, int cols, int rows, int path_length, int path_weight, int opened_vertices, long[] times) {
         System.out.println("Performance of " + name + " on a " + cols + "x" + rows + " map:");
-        System.out.println("Shortest path: " + path_length + " steps.");
+        System.out.println("Shortest path: " + path_length + " steps with a weight of " + path_weight);
         System.out.println("Opened vertices: " + opened_vertices);
         System.out.println("Average running time: " + get_average_time(times) + "ms");
         System.out.println("\n\n");

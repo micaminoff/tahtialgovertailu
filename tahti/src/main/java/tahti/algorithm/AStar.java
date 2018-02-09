@@ -127,4 +127,15 @@ public class AStar implements SearchAlgorithm {
     public int get_vertex_count() {
         return parents.get_size();
     }
+
+    @Override
+    public int get_path_weight() {
+        Vertex current = (Vertex) parents.get(target);
+        int weight = current.get_cost();
+        while (current != null) {
+            weight += current.get_cost();
+            current = (Vertex) parents.get(current);
+        }
+        return weight;
+    }
 }
