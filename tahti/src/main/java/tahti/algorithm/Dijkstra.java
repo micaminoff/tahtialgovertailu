@@ -18,7 +18,7 @@ import tahti.datastructure.VertexComparator;
 public class Dijkstra implements SearchAlgorithm {
 
     private Vertex[][] vertices;
-    private Map<Vertex, Vertex> parents;
+    private VertexMap parents;
     private PriorityQueue<Vertex> white;
     private Graph g;
     private Vertex target;
@@ -44,7 +44,7 @@ public class Dijkstra implements SearchAlgorithm {
         }
         // Init datastructures
         this.target = target;
-        parents = new HashMap<Vertex, Vertex>();
+        parents = new VertexMap();
         white = new PriorityQueue<>(new VertexComparator());
         init_single_source(source);
 
@@ -121,6 +121,6 @@ public class Dijkstra implements SearchAlgorithm {
     }
 
     public int get_vertex_count() {
-        return parents.size();
+        return parents.get_size();
     }
 }

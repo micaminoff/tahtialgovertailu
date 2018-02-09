@@ -56,8 +56,9 @@ public class Vertex {
     public int get_col() {
         return Integer.parseInt(id.split(",")[0]);
     }
+    @Override
     public int hashCode() {
-        return id.hashCode();
+        return Math.abs(id.hashCode());
     }
     
     @Override

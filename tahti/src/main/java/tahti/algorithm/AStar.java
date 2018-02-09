@@ -19,7 +19,6 @@ import tahti.datastructure.VertexComparator;
  */
 public class AStar implements SearchAlgorithm {
 
-    private Vertex[][] vertices;
     private Map<Vertex, Vertex> parents;
     private Map<Vertex, Integer> dist_from_source;
     private PriorityQueue<Vertex> open;
@@ -28,7 +27,6 @@ public class AStar implements SearchAlgorithm {
 
     public AStar(Graph g) {
         this.g = g;
-        vertices = g.get_vertices();
     }
 
     /**
