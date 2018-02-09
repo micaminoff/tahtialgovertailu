@@ -8,8 +8,9 @@ package tahti.datastructure;
 /**
  * Basically a HashTable
  * @author Michael Aminoff
+ * @param <V> Either a Vertex or integer or you'll break everything
  */
-public class VertexMap {
+public class VertexMap<V> {
 
     private int max_size;
     private int populated;
@@ -41,7 +42,7 @@ public class VertexMap {
      * @param key A Vertex
      * @param value A Vertex
      */
-    public void put(Vertex key, Vertex value) {
+    public void put(Vertex key, V value) {
         int hash = get_hash(key);
         MapEntry entry = new MapEntry(key, value);
 
@@ -91,12 +92,12 @@ public class VertexMap {
      * @param key The key whose value we want to know
      * @return The value this key is associated with
      */
-    public Vertex get(Vertex key) {
+    public V get(Vertex key) {
         int hash = get_hash(key);
         MapEntry entry = table[hash];
         while (entry != null) {
             if (entry.get_key().equals(key)) {
-                return entry.get_value();
+                return (V) entry.get_value();
             }
             entry = entry.get_next();
         }
@@ -109,6 +110,26 @@ public class VertexMap {
 
     public int get_size() {
         return populated;
+    }
+    
+    /**
+     * Checks if the table contains the given key
+     * @param key the Vertex we're interested in
+     * @return true if the key exists, false if it's not in the table
+     */
+    public boolean containsKey(Vertex key) {
+        int hash = get_hash(key);
+        if (table[hash] == null) {
+            return false;
+        }
+        MapEntry current = table[hash];
+        while (current != null) {
+            if (current.get_key() == key) {
+                return true;
+            }
+            current = current.get_next();
+        }
+        return false;
     }
 
     /**
@@ -125,12 +146,12 @@ public class VertexMap {
                 continue;
             }
             // Insert the found entry in the new table
-            put(m.key, m.value);
+            put(m.key, (V) m.value);
             MapEntry current = m;
             while (current.get_next() != null) {
                 // Go through all elements in this index
                 current = current.get_next();
-                put(current.key, current.value);
+                put(current.key, (V) current.value);
             }
         }
     }
@@ -138,13 +159,13 @@ public class VertexMap {
     /**
      * Class for constructing Vertex,Vertex-pairs. Only used as a backing structure for VertexMap.
      */
-    private class MapEntry {
+    private class MapEntry<V> {
 
         private Vertex key;
-        private Vertex value;
+        private V value;
         private MapEntry next;
 
-        public MapEntry(Vertex key, Vertex value) {
+        public MapEntry(Vertex key, V value) {
             this.key = key;
             this.value = value;
             this.next = null;
@@ -154,11 +175,11 @@ public class VertexMap {
             return key;
         }
 
-        public Vertex get_value() {
+        public V get_value() {
             return value;
         }
 
-        public void set_value(Vertex value) {
+        public void set_value(V value) {
             this.value = value;
         }
 

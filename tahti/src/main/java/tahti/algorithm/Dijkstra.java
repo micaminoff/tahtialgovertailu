@@ -5,8 +5,6 @@
  */
 package tahti.algorithm;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
 import tahti.datastructure.*;
 import tahti.datastructure.VertexComparator;
@@ -101,21 +99,21 @@ public class Dijkstra implements SearchAlgorithm {
 
 
     public int get_path_length() {
-        Vertex current = parents.get(target);
+        Vertex current = (Vertex) parents.get(target);
         int i = 0;
         while (current != null) {
             i++;
-            current = parents.get(current);
+            current = (Vertex) parents.get(current);
         }
         return i;
     }
 
     public String get_path() {
-        Vertex current = parents.get(target);
+        Vertex current = (Vertex) parents.get(target);
         String path = ""+current;
         while (current != null) {
             path += " - " + current;
-            current = parents.get(current);
+            current = (Vertex) parents.get(current);
         }
         return path;
     }

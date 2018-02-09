@@ -5,8 +5,6 @@
  */
 package tahti.algorithm;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
 import tahti.datastructure.Graph;
 import tahti.datastructure.Vertex;
@@ -21,7 +19,7 @@ import tahti.datastructure.VertexMap;
 public class AStar implements SearchAlgorithm {
 
     private VertexMap parents;
-    private Map<Vertex, Integer> dist_from_source;
+    private VertexMap dist_from_source;
     private PriorityQueue<Vertex> open;
     private Graph g;
     private Vertex target;
@@ -51,8 +49,8 @@ public class AStar implements SearchAlgorithm {
 
         // Initialize datastructures
         this.target = target;
-        parents = new VertexMap();
-        dist_from_source = new HashMap<>();
+        parents = new VertexMap<Vertex>();
+        dist_from_source = new VertexMap<Integer>();
         open = new PriorityQueue<>(new VertexComparator());
 
         // Add the source to queue and set it's priority to 0
@@ -79,8 +77,8 @@ public class AStar implements SearchAlgorithm {
                 if (v.get_cost() == Integer.MAX_VALUE) {
                     continue;
                 }
-                int cost = dist_from_source.get(current) + v.get_cost();
-                if (!dist_from_source.containsKey(v) || cost < dist_from_source.get(v)) {
+                int cost = (int) dist_from_source.get(current) + v.get_cost();
+                if (!dist_from_source.containsKey(v) || cost < (int) dist_from_source.get(v)) {
                     dist_from_source.put(v, cost);
                     v.set_f(cost + make_estimate(v, target));
                     open.add(v);
@@ -104,21 +102,21 @@ public class AStar implements SearchAlgorithm {
     }
 
     public int get_path_length() {
-        Vertex current = parents.get(target);
+        Vertex current = (Vertex) parents.get(target);
         int i = 0;
         while (current != null) {
             i++;
-            current = parents.get(current);
+            current = (Vertex) parents.get(current);
         }
         return i;
     }
 
     public String get_path() {
-        Vertex current = parents.get(target);
+        Vertex current = (Vertex) parents.get(target);
         String path = ""+current;
         while (current != null) {
             path += " - " + current;
-            current = parents.get(current);
+            current = (Vertex) parents.get(current);
         }
         return path;
     }
