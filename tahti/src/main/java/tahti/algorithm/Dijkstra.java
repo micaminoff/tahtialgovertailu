@@ -13,10 +13,10 @@ import tahti.datastructure.*;
  */
 public class Dijkstra implements SearchAlgorithm {
 
-    private Vertex[][] vertices;
+    private final Vertex[][] vertices;
     private VertexMap parents;
     private PriorityQ white;
-    private Graph g;
+    private final Graph g;
     private Vertex target;
 
     /**
@@ -33,6 +33,7 @@ public class Dijkstra implements SearchAlgorithm {
      * Runs Dijkstra's algorithm.
      * @param source the starting Vertex
      */
+    @Override
     public void run(Vertex source, Vertex target) {
         if (source.get_cost() == Integer.MAX_VALUE) {
             // Sanity check
@@ -91,6 +92,7 @@ public class Dijkstra implements SearchAlgorithm {
     }
 
 
+    @Override
     public int get_path_length() {
         Vertex current = (Vertex) parents.get(target);
         int i = 0;
@@ -101,6 +103,7 @@ public class Dijkstra implements SearchAlgorithm {
         return i;
     }
 
+    @Override
     public String get_path() {
         Vertex current = (Vertex) parents.get(target);
         String path = ""+current;
@@ -111,6 +114,7 @@ public class Dijkstra implements SearchAlgorithm {
         return path;
     }
 
+    @Override
     public int get_vertex_count() {
         return parents.get_size();
     }

@@ -20,7 +20,7 @@ public class AStar implements SearchAlgorithm {
     private VertexMap parents;
     private VertexMap dist_from_source;
     private PriorityQ open;
-    private Graph g;
+    private final Graph g;
     private Vertex target;
 
     public AStar(Graph g) {
@@ -32,7 +32,7 @@ public class AStar implements SearchAlgorithm {
      * goal and their relative positions on a map which is implemented as a 2d Vertex array.
      *
      * We start by calculating the manhattan distance from the starting node to the goal. Then do
-     * the same for its neighbors. We then compare all neighbor sand select the node that minimizes:
+     * the same for its neighbors. We then compare all neighbors and select the node that minimizes:
      * ditance traveled so far + estimated distance
      *
      * We then add the originating node as the new node's parent, thus creating a path.
@@ -40,6 +40,7 @@ public class AStar implements SearchAlgorithm {
      * @param source the starting vertex
      * @param target the goal
      */
+    @Override
     public void run(Vertex source, Vertex target) {
         if (source.get_cost() == Integer.MAX_VALUE) {
             // Sanity check, source cannot be impassable terrain
@@ -100,6 +101,7 @@ public class AStar implements SearchAlgorithm {
                 + Math.abs(source.get_row() + target.get_row()));
     }
 
+    @Override
     public int get_path_length() {
         Vertex current = (Vertex) parents.get(target);
         int i = 0;
@@ -110,6 +112,7 @@ public class AStar implements SearchAlgorithm {
         return i;
     }
 
+    @Override
     public String get_path() {
         Vertex current = (Vertex) parents.get(target);
         String path = ""+current;
@@ -120,6 +123,7 @@ public class AStar implements SearchAlgorithm {
         return path;
     }
 
+    @Override
     public int get_vertex_count() {
         return parents.get_size();
     }
