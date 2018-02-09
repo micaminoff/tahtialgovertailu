@@ -43,6 +43,9 @@ public class StatCollector {
         run_routine(g, source, target, reps, algos);
     }
     
+    /**
+     * Runs Dijkstra and AStar on a 512x492 map, the correct path is 496 steps
+     */
     public void routine_3() {
         Graph g = new Graph("./src/resources/brc100d.map");
         Vertex source = g.get_vertex_at(130, 350);

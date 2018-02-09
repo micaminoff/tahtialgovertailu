@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 import tahti.datastructure.Graph;
 import tahti.datastructure.Vertex;
 import tahti.datastructure.VertexComparator;
+import tahti.datastructure.VertexMap;
 
 /**
  * A class implementing the A*-search algorithm
@@ -19,7 +20,7 @@ import tahti.datastructure.VertexComparator;
  */
 public class AStar implements SearchAlgorithm {
 
-    private Map<Vertex, Vertex> parents;
+    private VertexMap parents;
     private Map<Vertex, Integer> dist_from_source;
     private PriorityQueue<Vertex> open;
     private Graph g;
@@ -50,7 +51,7 @@ public class AStar implements SearchAlgorithm {
 
         // Initialize datastructures
         this.target = target;
-        parents = new HashMap<>();
+        parents = new VertexMap();
         dist_from_source = new HashMap<>();
         open = new PriorityQueue<>(new VertexComparator());
 
@@ -123,6 +124,6 @@ public class AStar implements SearchAlgorithm {
     }
 
     public int get_vertex_count() {
-        return parents.size();
+        return parents.get_size();
     }
 }
