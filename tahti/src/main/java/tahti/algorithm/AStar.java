@@ -53,7 +53,7 @@ public class AStar implements SearchAlgorithm {
         dist_from_source = new VertexMap<>();
         open = new PriorityQ();
 
-        // Add the source to queue and set it's priority to 0
+        // Add the source to queue and set its priority to 0
         open.add(source);
         dist_from_source.put(source, 0);
         parents.put(source, null);
