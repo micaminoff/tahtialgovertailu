@@ -73,6 +73,7 @@ public class AStarTest {
         Vertex target = g.get_vertex_at(158, 381);
         a.run(source, target);
         assertTrue(a.get_path_length() == -1);
+        assertEquals(a.get_path(), "No path available");
     }
     
     @Test
@@ -100,5 +101,14 @@ public class AStarTest {
         Vertex target = g.get_vertex_at(57, 212);
         a.run(source, target);
         assertEquals(a.get_vertex_count(), 106);
+    }
+    
+    @Test
+    public void testGetPathWeight() {
+        System.out.println("get path length");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        a.run(source, target);
+        assertTrue(a.get_path_weight() == 4);
     }
 }

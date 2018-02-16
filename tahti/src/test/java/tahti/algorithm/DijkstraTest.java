@@ -19,26 +19,27 @@ import tahti.datastructure.Vertex;
  * @author michael
  */
 public class DijkstraTest {
+
     private Graph g;
     private Dijkstra d;
-    
+
     public DijkstraTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         g = new Graph("./src/resources/brc100d.map");
         d = new Dijkstra(g);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -54,8 +55,8 @@ public class DijkstraTest {
         d.run(source, target);
         assertTrue(d.get_path_length() == 4);
     }
-    
-        @Test
+
+    @Test
     public void testImpassableStartError() {
         System.out.println("run impassable start");
         Vertex source = g.get_vertex_at(178, 457);
@@ -63,7 +64,7 @@ public class DijkstraTest {
         d.run(source, target);
         assertTrue(d.get_path_length() == -1);
     }
-    
+
     @Test
     public void testDisjointAreas() {
         System.out.println("run disjoint areas");
@@ -73,8 +74,9 @@ public class DijkstraTest {
         Vertex target = g.get_vertex_at(158, 381);
         d.run(source, target);
         assertTrue(d.get_path_length() == -1);
+        assertEquals(d.get_path(), "No path available");
     }
-    
+
     @Test
     public void testGetPath() {
         System.out.println("get path");
@@ -83,7 +85,7 @@ public class DijkstraTest {
         d.run(source, target);
         assertTrue(d.get_path().equals("57,211 - 57,211 - 57,210 - 57,209 - 57,208"));
     }
-    
+
     @Test
     public void testGetPathLength() {
         System.out.println("get path length");
@@ -92,7 +94,7 @@ public class DijkstraTest {
         d.run(source, target);
         assertTrue(d.get_path_length() == 4);
     }
-    
+
     @Test
     public void testGetVertexCount() {
         System.out.println("get vertex count");
@@ -102,5 +104,14 @@ public class DijkstraTest {
         System.out.println(d.get_vertex_count());
         assertEquals(d.get_vertex_count(), 46);
     }
-    
+
+    @Test
+    public void testGetPathWeight() {
+        System.out.println("get path length");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertTrue(d.get_path_weight() == 4);
+    }
+
 }

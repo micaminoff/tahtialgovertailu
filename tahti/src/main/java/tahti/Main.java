@@ -22,6 +22,6 @@ public class Main {
         StatCollector s = new StatCollector();
         s.routine_1();
         s.routine_2();
-        s.routine_3();        
+        s.routine_3();
     }
 }
