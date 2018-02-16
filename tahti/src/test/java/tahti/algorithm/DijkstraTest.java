@@ -55,4 +55,52 @@ public class DijkstraTest {
         assertTrue(d.get_path_length() == 4);
     }
     
+        @Test
+    public void testImpassableStartError() {
+        System.out.println("run impassable start");
+        Vertex source = g.get_vertex_at(178, 457);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertTrue(d.get_path_length() == -1);
+    }
+    
+    @Test
+    public void testDisjointAreas() {
+        System.out.println("run disjoint areas");
+        g = new Graph("./src/resources/AR0300SR.map");
+        d = new Dijkstra(g);
+        Vertex source = g.get_vertex_at(71, 368);
+        Vertex target = g.get_vertex_at(158, 381);
+        d.run(source, target);
+        assertTrue(d.get_path_length() == -1);
+    }
+    
+    @Test
+    public void testGetPath() {
+        System.out.println("get path");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertTrue(d.get_path().equals("57,211 - 57,211 - 57,210 - 57,209 - 57,208"));
+    }
+    
+    @Test
+    public void testGetPathLength() {
+        System.out.println("get path length");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertTrue(d.get_path_length() == 4);
+    }
+    
+    @Test
+    public void testGetVertexCount() {
+        System.out.println("get vertex count");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        System.out.println(d.get_vertex_count());
+        assertEquals(d.get_vertex_count(), 46);
+    }
+    
 }

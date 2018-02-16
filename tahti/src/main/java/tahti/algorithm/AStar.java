@@ -42,16 +42,17 @@ public class AStar implements SearchAlgorithm {
      */
     @Override
     public void run(Vertex source, Vertex target) {
-        if (source.get_cost() == Integer.MAX_VALUE) {
-            // Sanity check, source cannot be impassable terrain
-            return;
-        }
-
         // Initialize datastructures
         this.target = target;
         parents = new VertexMap<>();
         dist_from_source = new VertexMap<>();
         open = new PriorityQ();
+        
+        if (source.get_cost() == Integer.MAX_VALUE) {
+            // Sanity check, source cannot be impassable terrain
+            parents.put(target, null);
+            return;
+        }
 
         // Add the source to queue and set its priority to 0
         open.add(source);
@@ -63,7 +64,7 @@ public class AStar implements SearchAlgorithm {
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
             if (current.get_cost() == Integer.MAX_VALUE) {
-                throw new java.lang.IllegalStateException("Error: Source is impassable");
+                continue;
             }
             if (current == target) {
                 // We've found the shortest path!
@@ -86,6 +87,11 @@ public class AStar implements SearchAlgorithm {
                 }
             }
         }
+        try {
+            Vertex test = (Vertex) parents.get(target);
+        } catch (NullPointerException e) {
+            parents.put(target, null);
+        }
     }
 
     /**
@@ -103,6 +109,9 @@ public class AStar implements SearchAlgorithm {
 
     @Override
     public int get_path_length() {
+        if (parents.get(target) == null) {
+            return -1;
+        }
         Vertex current = (Vertex) parents.get(target);
         int i = 0;
         while (current != null) {
@@ -115,6 +124,9 @@ public class AStar implements SearchAlgorithm {
     @Override
     public String get_path() {
         Vertex current = (Vertex) parents.get(target);
+        if (current == null) {
+            return "No path available";
+        }
         String path = ""+current;
         while (current != null) {
             path += " - " + current;
@@ -131,7 +143,10 @@ public class AStar implements SearchAlgorithm {
     @Override
     public int get_path_weight() {
         Vertex current = (Vertex) parents.get(target);
-        int weight = current.get_cost();
+        if (current == null) {
+            return -1;
+        }
+        int weight = 0;
         while (current != null) {
             weight += current.get_cost();
             current = (Vertex) parents.get(current);

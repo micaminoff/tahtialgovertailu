@@ -69,7 +69,6 @@ public class GraphTest {
         System.out.println("get_n_rows");
         int expResult = 492;
         int result = g.get_n_rows();
-        System.out.println(result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
@@ -87,15 +86,6 @@ public class GraphTest {
     }
 
     /**
-     * Test of toString method, of class Graph.
-     */
-    @Test
-    public void testToString() {
-        // Too heavy for real testing
-        assertTrue(true);
-    }
-
-    /**
      * Test of get_vertex_at method, of class Graph.
      */
     @Test
@@ -105,6 +95,23 @@ public class GraphTest {
         int y = 54;
         Vertex result = g.get_vertex_at(y, x);
         assertTrue(result != null);
+    }
+
+    /**
+     * Test of reset_graph method, of class Graph.
+     */
+    @Test
+    public void testReset_graph() {
+        System.out.println("reset_graph");
+        g.get_vertex_at(56, 54).set_f(12);
+        g.reset_graph();
+        assertEquals(g.get_vertex_at(56, 54).get_f(), 0);
+    }
+    
+    @Test
+    public void testGraphGen() {
+        Graph g2 = new Graph("./src/resources/brc100d.map");
+        assertEquals(g2.get_vertex_at(56, 54).get_f(), 0);
     }
     
 }

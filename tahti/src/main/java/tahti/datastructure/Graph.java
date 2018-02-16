@@ -130,20 +130,4 @@ public class Graph {
         }
         return Integer.MAX_VALUE;
     }
-
-    /**
-     * This is so intense it should probably never be used.
-     * @return string representation
-     */
-    @Override
-    public String toString() {
-        String rep = "";
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                rep += "" + vertices[j][i].get_cost();
-            }
-            rep += "\n";
-        }
-        return rep;
-    }
 }

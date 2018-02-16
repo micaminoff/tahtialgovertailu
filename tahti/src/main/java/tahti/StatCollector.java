@@ -18,7 +18,7 @@ import tahti.datastructure.Vertex;
 public class StatCollector {
     
     /**
-     * Runs A* 10 times on a 512x492 map, the correct path is 144 steps
+     * Runs A* 10 times on a 512x492 map, the correct path is 144 steps, w=144
      */
     public void routine_1() {
         Graph g = new Graph("./src/resources/brc100d.map");
@@ -31,7 +31,7 @@ public class StatCollector {
     }
     
     /**
-     * Runs Dijkstra 10 times on a 512x492 map, the correct path is 144 steps
+     * Runs Dijkstra 10 times on a 512x492 map, the correct path is 144 steps, w=144
      */
     public void routine_2() {
         Graph g = new Graph("./src/resources/brc100d.map");
@@ -44,7 +44,7 @@ public class StatCollector {
     }
     
     /**
-     * Runs Dijkstra and AStar on a 512x492 map, the correct path is 496 steps
+     * Runs Dijkstra and AStar on a 512x492 map, the correct path is 496 steps with w=496
      */
     public void routine_3() {
         Graph g = new Graph("./src/resources/brc100d.map");

@@ -6,9 +6,11 @@
 package tahti.algorithm;
 
 import tahti.datastructure.*;
+import java.lang.Exception;
 
 /**
  * A class implementing Dijkstra's pathfinding algorithm
+ *
  * @author Michael Aminoff
  */
 public class Dijkstra implements SearchAlgorithm {
@@ -31,50 +33,55 @@ public class Dijkstra implements SearchAlgorithm {
 
     /**
      * Runs Dijkstra's algorithm.
+     *
      * @param source the starting Vertex
      */
     @Override
     public void run(Vertex source, Vertex target) {
-        if (source.get_cost() == Integer.MAX_VALUE) {
-            // Sanity check
-            return;
-        }
         // Init datastructures
         this.target = target;
         parents = new VertexMap<>();
         white = new PriorityQ();
+
+        if (source.get_cost() == Integer.MAX_VALUE) {
+            parents.put(target, null);
+            return;
+        }
+
         init_single_source(source);
 
-        try {
-            while (!white.is_empty()) {  // While we haven't explored all nodes
-                Vertex current = white.poll();
-                if (current == null || current == target) {
-                    return;
-                }
-                if (current.get_cost() == Integer.MAX_VALUE) {
-                    continue;
-                }
-                for (Vertex n : g.get_vertices_neighbors(current)) {
-                    // Iterate through neighbors and update distances
-                    int path_weight = current.get_f();
+        while (!white.is_empty()) {  // While we haven't explored all nodes
+            Vertex current = white.poll();
+            if (current == null || current == target) {
+                return;
+            }
+            if (current.get_cost() == Integer.MAX_VALUE) {
+                continue;
+            }
+            for (Vertex n : g.get_vertices_neighbors(current)) {
+                // Iterate through neighbors and update distances
+                int path_weight = current.get_f();
 
-                    path_weight += n.get_cost();
-                    if (path_weight < n.get_f()) {
-                        // We found a better path! Update maps!
-                        n.set_f(path_weight);
-                        white.add(n);
-                        parents.put(n, current);
-                    }
+                path_weight += n.get_cost();
+                if (path_weight < n.get_f()) {
+                    // We found a better path! Update maps!
+                    n.set_f(path_weight);
+                    white.add(n);
+                    parents.put(n, current);
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+        try {
+            Vertex test = (Vertex) parents.get(target);
+        } catch (NullPointerException e) {
+            parents.put(target, null);
         }
     }
-    
+
     /**
-     * Classic Dijkstra init. Sets all distances to max, adds all verteces to
-     * white, and sets source distance to 0
+     * Classic Dijkstra init. Sets all distances to max, adds all verteces to white, and sets source
+     * distance to 0
+     *
      * @param source the starting vetrex
      */
     private void init_single_source(Vertex source) {
@@ -91,9 +98,11 @@ public class Dijkstra implements SearchAlgorithm {
         parents.put(source, null);
     }
 
-
     @Override
     public int get_path_length() {
+        if (parents.get(target) == null) {
+            return -1;
+        }
         Vertex current = (Vertex) parents.get(target);
         int i = 0;
         while (current != null) {
@@ -106,6 +115,9 @@ public class Dijkstra implements SearchAlgorithm {
     @Override
     public String get_path() {
         Vertex current = (Vertex) parents.get(target);
+        if (current == null) {
+            return "No path available";
+        }
         String path = ""+current;
         while (current != null) {
             path += " - " + current;
@@ -118,10 +130,13 @@ public class Dijkstra implements SearchAlgorithm {
     public int get_vertex_count() {
         return parents.get_size();
     }
-    
+
     @Override
     public int get_path_weight() {
         Vertex current = (Vertex) parents.get(target);
+        if (current == null) {
+            return -1;
+        }
         int weight = 0;
         while (current != null) {
             weight += current.get_cost();

@@ -67,7 +67,9 @@ public class PriorityQ {
         propagate_down();
         // Decrease array size if we have lots of wasted space
         if (max_size - populated > 2*populated) {
-            decrease_size();
+            if (max_size > 8) {
+                decrease_size();
+            }
         }
         return item.get_vertex();
     }
