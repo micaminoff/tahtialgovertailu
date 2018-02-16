@@ -37,7 +37,7 @@ public class StatCollector {
         Graph g = new Graph("./src/resources/brc100d.map");
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(149, 234);
-        int reps = 1;
+        int reps = 10;
         SearchAlgorithm[] algos = new SearchAlgorithm[1];
         algos[0] = new Dijkstra(g);
         run_routine(g, source, target, reps, algos);
@@ -69,11 +69,13 @@ public class StatCollector {
         for (SearchAlgorithm a : algos) {
             // For each algorithm in this routine
             long [] times = new long[reps];
+            long[] mems = new long[reps];
             for (int i = 0; i < reps; i++) {
                 // Repeat this many times
                 long start_time = System.currentTimeMillis();
                 a.run(target, source);
                 times[i] = System.currentTimeMillis() - start_time;
+                mems[i] = a.get_used_mem();
                 // Reset the graph to nullify f-values
                 g.reset_graph();
             }
@@ -85,7 +87,8 @@ public class StatCollector {
             int path_length = a.get_path_length();
             int path_weight = a.get_path_weight();
             int opened_vertices = a.get_vertex_count();
-            print_results(name, cols, rows, path_length, path_weight, opened_vertices, times);
+            print_results(name, cols, rows, path_length, path_weight, opened_vertices, times, mems);
+            System.out.println("\n\n");
         }
     }
     
@@ -98,12 +101,13 @@ public class StatCollector {
      * @param opened_vertices the amount of examined vertices
      * @param times an array containing all recorded times for each rep
      */
-    private void print_results(String name, int cols, int rows, int path_length, int path_weight, int opened_vertices, long[] times) {
+    private void print_results(String name, int cols, int rows, int path_length, int path_weight,
+                                int opened_vertices, long[] times, long[] mems) {
         System.out.println("Performance of " + name + " on a " + cols + "x" + rows + " map:");
         System.out.println("Shortest path: " + path_length + " steps with a weight of " + path_weight);
         System.out.println("Opened vertices: " + opened_vertices);
         System.out.println("Average running time: " + get_average_time(times) + "ms");
-        System.out.println("\n\n");
+        System.out.println("Average max memory used: " + get_average_memory(mems));
     }
 
     /**
@@ -117,5 +121,13 @@ public class StatCollector {
             total_time += t;
         }
         return ""+ total_time/times.length;
+    }
+    
+    private String get_average_memory(long[] mems) {
+        long total_mem = 0;
+        for (long mem : mems) {
+            total_mem += mem;
+        }
+        return ""+((total_mem / mems.length)/(1000*1000)) + "MB";
     }
 }

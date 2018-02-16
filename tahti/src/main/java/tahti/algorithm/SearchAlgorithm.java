@@ -22,4 +22,6 @@ public interface SearchAlgorithm {
     String get_path();
     
     int get_vertex_count();
+    
+    long get_used_mem();
 }

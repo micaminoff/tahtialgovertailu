@@ -22,9 +22,13 @@ public class AStar implements SearchAlgorithm {
     private PriorityQ open;
     private final Graph g;
     private Vertex target;
+    private long max_used_memory;
+    private Runtime rt;
 
     public AStar(Graph g) {
         this.g = g;
+        this.max_used_memory = 0;
+        this.rt = Runtime.getRuntime();
     }
 
     /**
@@ -61,6 +65,10 @@ public class AStar implements SearchAlgorithm {
 
         // While we still have potential vertices to explore
         while (!open.is_empty()) {
+            long used_mem = rt.totalMemory() - rt.freeMemory();
+            if (used_mem > max_used_memory) {
+                max_used_memory = used_mem;
+            }
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
             if (current.get_cost() == Integer.MAX_VALUE) {
@@ -87,6 +95,7 @@ public class AStar implements SearchAlgorithm {
                 }
             }
         }
+        // If we exhaust open and still haven't found target, it's unreachable
         try {
             Vertex test = (Vertex) parents.get(target);
         } catch (NullPointerException e) {
@@ -152,5 +161,9 @@ public class AStar implements SearchAlgorithm {
             current = (Vertex) parents.get(current);
         }
         return weight;
+    }
+    
+    public long get_used_mem() {
+        return max_used_memory;
     }
 }

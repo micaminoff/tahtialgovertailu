@@ -6,7 +6,6 @@
 package tahti.algorithm;
 
 import tahti.datastructure.*;
-import java.lang.Exception;
 
 /**
  * A class implementing Dijkstra's pathfinding algorithm
@@ -15,11 +14,12 @@ import java.lang.Exception;
  */
 public class Dijkstra implements SearchAlgorithm {
 
-    private final Vertex[][] vertices;
     private VertexMap parents;
     private PriorityQ white;
     private final Graph g;
     private Vertex target;
+    private long max_used_memory;
+    private Runtime rt;
 
     /**
      * Creates a Dijkstra algorithm instance
@@ -27,8 +27,9 @@ public class Dijkstra implements SearchAlgorithm {
      * @param g A Graph consisting of Edges and Vertices
      */
     public Dijkstra(Graph g) {
-        this.vertices = g.get_vertices();
         this.g = g;
+        this.max_used_memory = 0;
+        this.rt = Runtime.getRuntime();
     }
 
     /**
@@ -51,6 +52,10 @@ public class Dijkstra implements SearchAlgorithm {
         init_single_source(source);
 
         while (!white.is_empty()) {  // While we haven't explored all nodes
+            long used_mem = rt.totalMemory() - rt.freeMemory();
+            if (used_mem > max_used_memory) {
+                max_used_memory = used_mem;
+            }
             Vertex current = white.poll();
             if (current == null || current == target) {
                 return;
@@ -71,6 +76,7 @@ public class Dijkstra implements SearchAlgorithm {
                 }
             }
         }
+        // If we exhaust open and still haven't found target, it's unreachable
         try {
             Vertex test = (Vertex) parents.get(target);
         } catch (NullPointerException e) {
@@ -87,7 +93,7 @@ public class Dijkstra implements SearchAlgorithm {
     private void init_single_source(Vertex source) {
         for (int i = 0; i < g.get_n_columns(); i++) {
             for (int j = 0; j < g.get_n_rows(); j++) {
-                Vertex current = vertices[i][j];
+                Vertex current = g.get_vertex_at(i, j);
                 if (current != source) {
                     current.set_f(Integer.MAX_VALUE);
                 }
@@ -143,5 +149,8 @@ public class Dijkstra implements SearchAlgorithm {
             current = (Vertex) parents.get(current);
         }
         return weight;
+    }
+    public long get_used_mem() {
+        return max_used_memory;
     }
 }
