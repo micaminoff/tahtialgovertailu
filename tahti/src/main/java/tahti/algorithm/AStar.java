@@ -104,7 +104,7 @@ public class AStar implements SearchAlgorithm {
      */
     private int make_estimate(Vertex source, Vertex target) {
         return (Math.abs(source.get_col() - target.get_col())
-                + Math.abs(source.get_row() + target.get_row()));
+                + Math.abs(source.get_row() - target.get_row()));
     }
 
     @Override
