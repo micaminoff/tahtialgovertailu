@@ -5,10 +5,7 @@
  */
 package tahti.algorithm;
 
-import tahti.datastructure.Graph;
-import tahti.datastructure.PriorityQ;
-import tahti.datastructure.Vertex;
-import tahti.datastructure.VertexMap;
+import tahti.datastructure.*;
 
 /**
  * A class implementing the A*-search algorithm

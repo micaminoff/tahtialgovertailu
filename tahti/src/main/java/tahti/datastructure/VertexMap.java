@@ -131,7 +131,7 @@ public class VertexMap<V> {
         }
         return false;
     }
-
+    
     /**
      * Rebuilds the table after it's increased in size.
      */

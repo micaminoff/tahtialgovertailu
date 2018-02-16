@@ -21,7 +21,12 @@ public class Main {
     public static void main(String[] args) {
         StatCollector s = new StatCollector();
         s.routine_1();
+        System.out.println("---------------------------------------------------------------");
         s.routine_2();
+        System.out.println("---------------------------------------------------------------");
         s.routine_3();
+        System.out.println("---------------------------------------------------------------");
+        s.routine_4();
+          // s.routine_5();
     }
 }

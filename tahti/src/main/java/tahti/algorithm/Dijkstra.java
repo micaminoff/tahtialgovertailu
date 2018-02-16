@@ -64,6 +64,9 @@ public class Dijkstra implements SearchAlgorithm {
                 continue;
             }
             for (Vertex n : g.get_vertices_neighbors(current)) {
+                if (n == null) {
+                    continue;
+                }
                 // Iterate through neighbors and update distances
                 int path_weight = current.get_f();
 
