@@ -19,80 +19,138 @@ public class IDAStar implements SearchAlgorithm {
     private Graph g;
     private long max_used_memory;
     private Runtime rt;
-    private Stack black;
+    private int visited;
+    private Stack<Vertex> path;
 
     public IDAStar(Graph g) {
         this.g = g;
-        this.parents = new VertexMap();
-        this.max_used_memory = 0;
         this.rt = Runtime.getRuntime();
-        this.black = new Stack();
     }
 
+    /**
+     * IDA* is a memory-constrained Iterative Deepening implementation of A* It makes an optimistic
+     * guess of how far away the target is from the start and doesn't allow for exploration beyond
+     * that point. IDA* is a recursive DFS, selecting the best f-value among the last vertex's
+     * neighbors for the next recursion. If a vertex's f-score exceeds the threshold we return from
+     * recursion and select the lowest of the exceeding f-values as the next threshold. Then we
+     * forget everything we learned and do it again.
+     *
+     * @param start The vertex we start from
+     * @param target The vertex we want to get to
+     */
     @Override
-    public void run(Vertex source, Vertex target) {
-        // Sanity check
-        black.push(source);
-        if (source.get_cost() == Integer.MAX_VALUE || target.get_cost() == Integer.MAX_VALUE) {
-            parents.put(target, null);
-            return;
-        }
+    public void run(Vertex start, Vertex target) {
+        // Init datastructures and metrics
+        this.visited = 0;
+        this.max_used_memory = 0;
+        this.parents = new VertexMap<>();
         this.target = target;
-        int threshold = make_estimate(source, target);
+        this.path = new Stack();
+        path.add(start);
+        // Initial threshold = h(start => target)
+        int threshold = make_estimate(start, target);
         while (true) {
-            System.out.println(threshold);
-            Vertex current = search(source, 0, threshold);
-            if (current == target) {
+            // Initial call, always search from start with cumulative cost=0
+            Vertex temp = search(start, 0, threshold);
+            if (temp == null || temp == target || temp.get_f() == Integer.MAX_VALUE) {
+                if (temp == null || temp.get_f() == Integer.MAX_VALUE) {
+                    parents.put(target, null);
+                }
+                // Break loop if target found or unfindable
                 return;
             }
-            threshold = current.get_f();
+            threshold = temp.get_f();
         }
     }
 
-    public Vertex search(Vertex v, int cost, int threshold) {
-        if (v == target) {
-            System.out.println("WOOP");
-            return v;
+    /**
+     * The recursive function. Figures out if we've found the target or exceeded the threshold by
+     * recursively and greedily going through v's neighbors
+     *
+     * @param v The vertex currently under consideration
+     * @param dist_from_source the cost to get to v from start
+     * @param threshold the threshold, stop recursing if we exceed this
+     * @return Target or lowest f vertex
+     */
+    private Vertex search(Vertex v, int dist_from_source, int threshold) {
+        // <Metrics>
+        visited++;
+        long used_mem = rt.totalMemory() - rt.freeMemory();
+        if (used_mem > max_used_memory) {
+            max_used_memory = used_mem;
         }
+        // </Metrics>
+
         int f;
-        if (v.get_cost() == Integer.MAX_VALUE || cost < 0) {
+        if (v == null) {
+            return null;
+        }
+        // If current node is impassable or we caused an overflow
+        if (v.get_cost() == Integer.MAX_VALUE || dist_from_source < 0) {
             f = Integer.MAX_VALUE;
         } else {
-            f = cost + make_estimate(v, target);
+            f = dist_from_source + make_estimate(v, target);
         }
         v.set_f(f);
-        if (f > threshold) {
+
+        // Return target or a vertex whose f exceeds the threshold
+        if (v == target || v.get_f() > threshold) {
             return v;
         }
+
         int min = Integer.MAX_VALUE;
         Vertex min_vertex = null;
+        PriorityQ neighbors = get_ordered_neighbors(v);
 
-        for (Vertex n : g.get_vertices_neighbors(v)) {
+        // Iterate through v's neighbors
+        while (!neighbors.is_empty()) {
+            // Select most promising vertex that hasn't been visited in the current path
+            Vertex n = neighbors.poll();
+            if (path.contains(n)) {
+                continue;
+            }
+            path.add(n);
+            // Recurse, using the most promising of v's neighbors
+            Vertex temp = search(n, dist_from_source + n.get_cost(), threshold);
+            if (temp == target) {
+                // Score! Log this path.
+                //System.out.println("N: " + n + ", V: " + v + ", temp: " + temp);
+                parents.put(n, v);
+                return target;
+            }
+            // Helper conditional to get the smallest of the exceeding vertices
+            if (temp.get_f() <= min) {
+                min = temp.get_f();
+                min_vertex = temp;
+            }
+            path.pop();
+        }
+        return min_vertex;
+    }
+
+    /**
+     * Method for finding and sorting a vertex's neighbors according to their f-value
+     *
+     * @param v the vertex whose neighbors we want
+     * @return a PriorityQ of vertices
+     */
+    private PriorityQ get_ordered_neighbors(Vertex v) {
+        Vertex[] neighbors = g.get_vertices_neighbors(v);
+        PriorityQ ordered_neighbors = new PriorityQ();
+        for (Vertex n : neighbors) {
             if (n == null) {
                 continue;
             }
-            if (!black.contains(n)) {
-                black.push(n);
-                Vertex temp = search(n, cost + n.get_cost(), threshold);
-
-                if (temp == target) {
-                    System.out.println("V: " + v + ", n: " + n + ", temp: " + temp);
-                    parents.put(temp, n);
-                    return target;
-                }
-                if (temp.get_f() < min) {
-                    min = temp.get_f();
-                    min_vertex = temp;
-                }
-                black.pop();
+            int f;
+            if (n.get_cost() == Integer.MAX_VALUE) {
+                f = Integer.MAX_VALUE;
+            } else {
+                f = make_estimate(n, target);
             }
-
+            n.set_f(f);
+            ordered_neighbors.add(n);
         }
-        if (min == Integer.MAX_VALUE) {
-            v.set_f(Integer.MAX_VALUE);
-        }
-        return min_vertex;
-
+        return ordered_neighbors;
     }
 
     /**
@@ -142,17 +200,17 @@ public class IDAStar implements SearchAlgorithm {
         if (current == null) {
             return "No path available";
         }
-        String path = "" + current;
+        String p = "" + current;
         while (current != null) {
-            path += " - " + current;
+            p += " - " + current;
             current = (Vertex) parents.get(current);
         }
-        return path;
+        return p;
     }
 
     @Override
     public int get_vertex_count() {
-        return parents.get_size();
+        return visited;
     }
 
     public long get_used_mem() {

@@ -75,6 +75,31 @@ public class PriorityQTest {
         instance.add(y);
         Vertex test = instance.poll();
         assertEquals(test.get_f(), 12);
+        Vertex test2 = instance.poll();
+        assertEquals(test2.get_f(), 50);
     }
+    
+    @Test
+    public void testIsEmpty() {
+        PriorityQ instance = new PriorityQ();
+        Vertex v = new Vertex(0, 0);
+        v.set_f(100);
+        instance.add(v);
+        Vertex w = new Vertex(0, 1);
+        w.set_f(50);
+        instance.add(w);
+        Vertex x = new Vertex(0, 2);
+        x.set_f(120);
+        instance.add(x);
+        Vertex y = new Vertex(0, 3);
+        y.set_f(12);
+        instance.add(y);
+        Vertex test = instance.poll();
+        instance.poll();
+        instance.poll();
+        instance.poll();
+        assertEquals(instance.is_empty(), true);
+    }
+    
     
 }

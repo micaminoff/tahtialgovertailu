@@ -21,10 +21,10 @@ public class AStar implements SearchAlgorithm {
     private Vertex target;
     private long max_used_memory;
     private Runtime rt;
+    private int visited;
 
     public AStar(Graph g) {
         this.g = g;
-        this.max_used_memory = 0;
         this.rt = Runtime.getRuntime();
     }
 
@@ -43,7 +43,9 @@ public class AStar implements SearchAlgorithm {
      */
     @Override
     public void run(Vertex source, Vertex target) {
-        // Initialize datastructures
+        // Initialize datastructures and metrics
+        this.max_used_memory = 0;
+        this.visited = 0;
         this.target = target;
         parents = new VertexMap<>();
         dist_from_source = new VertexMap<>();
@@ -80,6 +82,7 @@ public class AStar implements SearchAlgorithm {
                 if (v == null) {
                     continue;
                 }
+                visited++;
                 if (v.get_cost() == Integer.MAX_VALUE) {
                     continue;
                 }
@@ -143,7 +146,7 @@ public class AStar implements SearchAlgorithm {
 
     @Override
     public int get_vertex_count() {
-        return parents.get_size();
+        return visited;
     }
 
     @Override

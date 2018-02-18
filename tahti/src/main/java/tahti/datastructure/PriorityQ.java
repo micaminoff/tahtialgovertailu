@@ -31,6 +31,16 @@ public class PriorityQ {
     public PriorityQ() {
         this(8);
     }
+    
+    private int parent(int i) {
+        return (int) Math.floor(i/2);
+    }
+    private int left(int i) {
+        return 2*i;
+    }
+    private int right(int i) {
+        return 2*i + 1;
+    }
 
     /**
      * Adds a vertex to the priority queue. First creates a QItem with the vertex's f-value as
@@ -51,6 +61,31 @@ public class PriorityQ {
             increase_size();
         } 
     }
+    
+    private void heapify(int i) {
+        int left = left(i);
+        int right = right(i);
+        if (right <= populated) {
+            int smallest;
+            if (table[left].get_priority() < table[right].get_priority()) {
+                smallest = left;
+            } else {
+                smallest = right;
+            }
+            if (table[i].get_priority() > table[smallest].get_priority()) {
+                swap(i, smallest);
+                heapify(smallest);
+            }
+        } else if (left == populated && table[i].get_priority() > table[left].get_priority()) {
+            swap(i, left);
+        }
+    }
+    
+    private void swap(int a, int b) {
+        QItem temp = table[a];
+        table[a] = table[b];
+        table[b] = temp;
+    }
 
     /**
      * Removes and returns the vertex with the highest priority (smallest f, top of heap)
@@ -64,7 +99,7 @@ public class PriorityQ {
         populated--;
         
         // Move the top item down until it comes across a larger one
-        propagate_down();
+        heapify(1);
         // Decrease array size if we have lots of wasted space
         if (max_size - populated > 2*populated) {
             if (max_size > 8) {

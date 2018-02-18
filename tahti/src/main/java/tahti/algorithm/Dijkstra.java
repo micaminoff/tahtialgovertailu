@@ -20,6 +20,7 @@ public class Dijkstra implements SearchAlgorithm {
     private Vertex target;
     private long max_used_memory;
     private Runtime rt;
+    private int visited;
 
     /**
      * Creates a Dijkstra algorithm instance
@@ -28,7 +29,6 @@ public class Dijkstra implements SearchAlgorithm {
      */
     public Dijkstra(Graph g) {
         this.g = g;
-        this.max_used_memory = 0;
         this.rt = Runtime.getRuntime();
     }
 
@@ -39,7 +39,9 @@ public class Dijkstra implements SearchAlgorithm {
      */
     @Override
     public void run(Vertex source, Vertex target) {
-        // Init datastructures
+        // Init datastructures and metrics
+        this.max_used_memory = 0;
+        this.visited = 0;
         this.target = target;
         parents = new VertexMap<>();
         white = new PriorityQ();
@@ -67,6 +69,7 @@ public class Dijkstra implements SearchAlgorithm {
                 if (n == null) {
                     continue;
                 }
+                visited++;
                 // Iterate through neighbors and update distances
                 int path_weight = current.get_f();
 
@@ -137,7 +140,7 @@ public class Dijkstra implements SearchAlgorithm {
 
     @Override
     public int get_vertex_count() {
-        return parents.get_size();
+        return visited;
     }
 
     @Override
