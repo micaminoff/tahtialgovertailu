@@ -36,6 +36,7 @@ public class Dijkstra implements SearchAlgorithm {
      * Runs Dijkstra's algorithm.
      *
      * @param source the starting Vertex
+     * @param target the target v
      */
     @Override
     public void run(Vertex source, Vertex target) {
@@ -81,12 +82,6 @@ public class Dijkstra implements SearchAlgorithm {
                     parents.put(n, current);
                 }
             }
-        }
-        // If we exhaust open and still haven't found target, it's unreachable
-        try {
-            Vertex test = (Vertex) parents.get(target);
-        } catch (NullPointerException e) {
-            parents.put(target, null);
         }
     }
 

@@ -58,7 +58,7 @@ public class StatCollector {
         Graph g = new Graph("./src/resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 5);
         Vertex target = g.get_vertex_at(511, 511);
-        int reps = 5;
+        int reps = 50;
         SearchAlgorithm[] algos = new SearchAlgorithm[2];
         algos[0] = new AStar(g);
         algos[1] = new Dijkstra(g);
@@ -94,13 +94,15 @@ public class StatCollector {
      * Seems to be too heavy for IDA*
      */
     public void routine_7() {
-        String description = "Routine 1: Runs A* 5 times on a 512x492 semi-open map, the correct path is 144 steps, w=144";
-        Graph g = new Graph("./src/resources/brc100d.map");
-        Vertex source = g.get_vertex_at(57, 208);
-        Vertex target = g.get_vertex_at(110, 230);
+        String description = "Routine 7: All algos on a 512x512 mazelike map. Correct path is 952";
+        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Vertex source = g.get_vertex_at(1, 1);
+        Vertex target = g.get_vertex_at(1, 33);
         int reps = 5;
-        SearchAlgorithm[] algos = new SearchAlgorithm[1];
-        algos[0] = new IDAStar(g);
+        SearchAlgorithm[] algos = new SearchAlgorithm[3];
+        algos[0] = new Dijkstra(g);
+        algos[1] = new AStar(g);
+        algos[2] = new IDAStar(g);
         run_routine(description, g, source, target, reps, algos);
     }
 
@@ -125,6 +127,7 @@ public class StatCollector {
                 // Repeat this many times
                 long start_time = System.currentTimeMillis();
                 a.run(source, target);
+                System.out.println(a.get_path_length());
                 times[i] = System.currentTimeMillis() - start_time;
                 mems[i] = a.get_used_mem();
                 // Reset the graph to nullify f-values

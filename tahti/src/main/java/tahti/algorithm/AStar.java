@@ -20,7 +20,7 @@ public class AStar implements SearchAlgorithm {
     private final Graph g;
     private Vertex target;
     private long max_used_memory;
-    private Runtime rt;
+    private final Runtime rt;
     private int visited;
 
     public AStar(Graph g) {
@@ -95,12 +95,6 @@ public class AStar implements SearchAlgorithm {
                 }
             }
         }
-        // If we exhaust open and still haven't found target, it's unreachable
-        try {
-            Vertex test = (Vertex) parents.get(target);
-        } catch (NullPointerException e) {
-            parents.put(target, null);
-        }
     }
 
     /**
@@ -163,6 +157,7 @@ public class AStar implements SearchAlgorithm {
         return weight;
     }
     
+    @Override
     public long get_used_mem() {
         return max_used_memory;
     }
