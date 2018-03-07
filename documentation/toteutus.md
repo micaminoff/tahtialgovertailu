@@ -72,9 +72,9 @@ Since IDA\* only stores its current path its space complexity is O(L)
 #### Performance analysis
 Open maps with branching factor=4:
 
-Dijkstra and A\* perform far better than IDA\* - by several orders in magnitude - if the problem is not absolutely trivial.
-However, IDA\* always uses linear memory while both other algorithms' memory consumption grows.
-A\* visits and remembers fewer nodes than Dijkstra, but performs worse in some cases due to agressive memory management in backing datastructures. IDA\* visits FAR more nodes than either of the others.
+* Dijkstra and A\* perform far better than IDA\* - by several orders in magnitude - if the problem is not absolutely trivial.
+* IDA\* always uses linear memory while both other algorithms' memory consumption grows.
+* A\* visits and remembers fewer nodes than Dijkstra, but performs worse in some cases due to agressive memory management in backing datastructures. IDA\* visits FAR more nodes than either of the others.
 
 Algorithm | Path Length | Time | Nodes visited | Nodes in memory
 ----------|-------------|------|---------------|----------------
@@ -90,10 +90,10 @@ IDA\* | 37 | 1786ms | 2150410 | 37
 
 Mazelike maps with branching factor ~ 2:
 
-Dijkstra and A\* perform far better than IDA\* - by several orders in magnitude - if the problem is not absolutely trivial.
-For simpler problems IDA\* and A\* perform better than Dijkstra. As the problem grows IDA\* suffers while A\* and Dijkstra stay relatively equal.
-However, IDA\* always uses linear memory while both other algorithms' memory consumption grows.
-A\* visits and remembers fewer nodes than Dijkstra, but performs worse in some cases due to agressive memory management in backing datastructures. IDA\* visits FAR more nodes than either of the others.
+* Dijkstra and A\* perform far better than IDA\* - by several orders in magnitude - if the problem is not absolutely trivial.
+* For simpler problems IDA\* and A\* perform better than Dijkstra. As the problem grows IDA\* suffers while A\* and Dijkstra stay relatively equal.
+* However, IDA\* always uses linear memory while both other algorithms' memory consumption grows.
+* A\* visits and remembers fewer nodes than Dijkstra, but performs worse in some cases due to agressive memory management in backing datastructures. IDA\* visits FAR more nodes than either of the others.
 
 Algorithm | Path Length | Time | Nodes visited | Nodes in memory
 ----------|-------------|------|---------------|----------------
