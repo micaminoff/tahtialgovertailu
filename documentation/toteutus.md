@@ -25,7 +25,7 @@ The  `App` class prvoides the interface for interacting with the rest of the pr
 `StatCollector` needs to have access to the high-level datastructures `Graph` and `Vertex` as well as the entire `algorithm`-package to be able to define the parameters of the search.
 
 The `io`-package is used to parse user input or provide mock inputs during testing (`console` and `stub` respectively).
-`StatCollector` defines several predifined routines for performance testing as well as a custom routine creation method. 
+`StatCollector` offers several predifined routines for performance testing as well as a custom routine creation method. 
 
 The `algorithm`-package includes all currently implemented search algorithms. They need access to the `datastructures`-package for obvious reasons.
 
