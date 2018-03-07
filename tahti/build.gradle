@@ -32,8 +32,9 @@ jacocoTestReport {
         classDirectories = files(classDirectories.files.collect {
                 fileTree(dir: it, exclude: [
                         '**/StatCollector*',
-			'**/Main*',
-                        '**/IDAStar*'
+			'**/App*',
+                        '**/IDAStar*',
+			'**/io*
                     ])
             })
     }
