@@ -34,7 +34,8 @@ jacocoTestReport {
                         '**/StatCollector*',
 			'**/App*',
                         '**/IDAStar*',
-			'**/io*
+			'**/Console**',
+			'**/Stub**'
                     ])
             })
     }
