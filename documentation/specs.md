@@ -2,8 +2,7 @@
 
 ### Introduction
 The purpose of this project is to familiarize myself with the most widely used
-path-finding algorithms; **Dijkstra**, **A\***, and the **D\*-family** (at least
-Original D\*, hopefully either or both of Focused and Lite) as well as the data
+path-finding algorithms; **Dijkstra**, **A\***, and **IDA\*** as well as the data
 structures needed to implement them. This project will be implemented in
 **Java using Gradle and JUnit**.
 
@@ -22,20 +21,13 @@ required to achieve for example "best path with 99% confidence" and if the
 performance improvement is worth the uncertainty.
 
 ### Inputs
-The program is passed a graph `method of representation undecided`. As well as
-the starting and end nodes. These extra options might be implemented
-(in descending order of importance):
-- [ ] directional edges
-- [ ] positively weighted edges
-- [ ] memory limit
-- [ ] confidence interval
-- [ ] timeout limit
+The program is passed a graph from [Moving AI](http://www.movingai.com/benchmarks/). As well as
+the starting and end nodes.
 
 No further input is needed from the user after these are passed, the program
 will run to completion and output
-* The correct path
 * Analysis of time and memory used by each algorithm
-* (*number of operations*)
+* Number of operations
 
 ### Complexity goals
 Algorithm | Time Complexity | Space Complexity
