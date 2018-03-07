@@ -3,16 +3,27 @@
 #### Structure
 .
 └── tahti
+
     ├── algorithm
+    
     │   ├── AStar.java
+    
     │   ├── Dijkstra.java
+    
     │   └── SearchAlgorithm.java
+    
     ├── datastructure
+    
     │   ├── Graph.java
+    
     │   ├── PriorityQ.java
+    
     │   ├── Vertex.java
+    
     │   └── VertexMap.java
+    
     ├── Main.java
+    
     └── StatCollector.java
 
 For now, main runs the three routines defined in StatCollector. This is basically a large integration test that tests all classes.
