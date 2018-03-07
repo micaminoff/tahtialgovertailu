@@ -136,6 +136,7 @@ public class VertexMap<V> {
      * Rebuilds the table after it's increased in size.
      */
     private void rebuild() {
+        populated = 0;
         // Copy the old table
         MapEntry[] old_table = table.clone();
         // Create a new table and set it as class variable

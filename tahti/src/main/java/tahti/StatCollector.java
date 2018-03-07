@@ -73,7 +73,7 @@ public class StatCollector {
         String description = "Routine 5: Runs all 5 times on a 512x492 semi-open map, correct path is 37 steps";
         Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(65, 240);
-        Vertex target = g.get_vertex_at(84, 238);
+        Vertex target = g.get_vertex_at(90, 238);
         int reps = 5;
         SearchAlgorithm[] algos = new SearchAlgorithm[3];
         algos[0] = new Dijkstra(g);

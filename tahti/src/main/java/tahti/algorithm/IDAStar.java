@@ -219,7 +219,7 @@ public class IDAStar implements SearchAlgorithm {
 
     @Override
     public int get_max_open() {
-        return max_opened + get_path_length();
+        return parents.get_size();
     }
 
 }

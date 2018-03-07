@@ -54,6 +54,7 @@ public class Dijkstra implements SearchAlgorithm {
 
         while (!white.is_empty()) {  // While we haven't explored all nodes
             Vertex current = white.poll();
+            max_opened--;
             if (current == null || current == target) {
                 return;
             }
@@ -149,7 +150,7 @@ public class Dijkstra implements SearchAlgorithm {
 
     @Override
     public int get_max_open() {
-        return parents.get_size();
+        return parents.get_size() + max_opened;
     }
 
 }
