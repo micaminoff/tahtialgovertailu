@@ -17,14 +17,13 @@ public class IDAStar implements SearchAlgorithm {
     private VertexMap parents;
     private Vertex target;
     private Graph g;
-    private long max_used_memory;
-    private Runtime rt;
     private int visited;
-    private Stack<Vertex> path;
+    private VertexStack path;
+    private int max_opened;
+    private int currently_opened;
 
     public IDAStar(Graph g) {
         this.g = g;
-        this.rt = Runtime.getRuntime();
     }
 
     /**
@@ -42,13 +41,19 @@ public class IDAStar implements SearchAlgorithm {
     public void run(Vertex start, Vertex target) {
         // Init datastructures and metrics
         this.visited = 0;
-        this.max_used_memory = 0;
+        this.max_opened = 0;
+        this.currently_opened = 0;
         this.parents = new VertexMap<>();
         this.target = target;
-        this.path = new Stack();
-        path.add(start);
+        this.path = new VertexStack();
+        path.push(start);
         // Initial threshold = h(start => target)
         int threshold = make_estimate(start, target);
+        if (target.get_cost() == Integer.MAX_VALUE) {
+            parents.put(target, null);
+            return;
+        }
+        
         while (true) {
             // Initial call, always search from start with cumulative cost=0
             Vertex temp = search(start, 0, threshold);
@@ -73,18 +78,9 @@ public class IDAStar implements SearchAlgorithm {
      * @return Target or lowest f vertex
      */
     private Vertex search(Vertex v, int dist_from_source, int threshold) {
-        // <Metrics>
         visited++;
-        long used_mem = rt.totalMemory() - rt.freeMemory();
-        if (used_mem > max_used_memory) {
-            max_used_memory = used_mem;
-        }
-        // </Metrics>
 
         int f;
-        if (v == null) {
-            return null;
-        }
         // If current node is impassable or we caused an overflow
         if (v.get_cost() == Integer.MAX_VALUE || dist_from_source < 0) {
             f = Integer.MAX_VALUE;
@@ -101,15 +97,18 @@ public class IDAStar implements SearchAlgorithm {
         int min = Integer.MAX_VALUE;
         Vertex min_vertex = null;
         PriorityQ neighbors = get_ordered_neighbors(v);
+        currently_opened += neighbors.get_populated();
+        if (currently_opened > max_opened) { max_opened = currently_opened; }
 
         // Iterate through v's neighbors
         while (!neighbors.is_empty()) {
             // Select most promising vertex that hasn't been visited in the current path
             Vertex n = neighbors.poll();
+            currently_opened--;
             if (path.contains(n)) {
                 continue;
             }
-            path.add(n);
+            path.push(n);
             // Recurse, using the most promising of v's neighbors
             Vertex temp = search(n, dist_from_source + n.get_cost(), threshold);
             if (temp == target) {
@@ -124,6 +123,11 @@ public class IDAStar implements SearchAlgorithm {
                 min_vertex = temp;
             }
             path.pop();
+        }
+        currently_opened = 0;
+        if (min_vertex == null) {
+            min_vertex = new Vertex(-1, -1);
+            min_vertex.set_f(threshold+1);
         }
         return min_vertex;
     }
@@ -213,8 +217,9 @@ public class IDAStar implements SearchAlgorithm {
         return visited;
     }
 
-    public long get_used_mem() {
-        return max_used_memory;
+    @Override
+    public int get_max_open() {
+        return max_opened + get_path_length();
     }
 
 }

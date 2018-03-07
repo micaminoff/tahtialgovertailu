@@ -32,9 +32,6 @@ public class PriorityQ {
         this(8);
     }
     
-    private int parent(int i) {
-        return (int) Math.floor(i/2);
-    }
     private int left(int i) {
         return 2*i;
     }
@@ -101,7 +98,7 @@ public class PriorityQ {
         // Move the top item down until it comes across a larger one
         heapify(1);
         // Decrease array size if we have lots of wasted space
-        if (max_size - populated > 2*populated) {
+        if (max_size - populated > 3*populated) {
             if (max_size > 8) {
                 decrease_size();
             }
@@ -146,26 +143,6 @@ public class PriorityQ {
     }
 
     /**
-     * Does the inverse of propagate_up
-     */
-    private void propagate_down() {
-        int current = 1;
-        QItem q = table[current];
-        while (current < populated/2) {
-            int j = 2*current;
-            if (j < populated && table[j].get_priority() > table[j+1].get_priority()) {
-                j++;
-            }
-            if (q.get_priority() <= table[j].get_priority()) {
-                break;
-            }
-            table[current] = table[j];
-            current = j;
-        }
-        table[current] = q;
-    }
-
-    /**
      * Halves the size of the backing array
      */
     private void decrease_size() {
@@ -175,6 +152,10 @@ public class PriorityQ {
             new_table[i] = table[i];
         }
         table = new_table;
+    }
+    
+    public int get_populated() {
+        return this.populated;
     }
     
     @Override

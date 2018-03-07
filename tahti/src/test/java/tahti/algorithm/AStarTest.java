@@ -11,8 +11,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tahti.App;
 import tahti.datastructure.Graph;
 import tahti.datastructure.Vertex;
+import tahti.io.Stub;
 
 /**
  *
@@ -100,7 +102,7 @@ public class AStarTest {
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(57, 212);
         a.run(source, target);
-        assertEquals(a.get_vertex_count(), 14);
+        assertEquals(a.get_vertex_count(), 16);
     }
     
     @Test

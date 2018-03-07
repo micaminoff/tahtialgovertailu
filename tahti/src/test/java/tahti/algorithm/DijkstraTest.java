@@ -102,7 +102,7 @@ public class DijkstraTest {
         Vertex target = g.get_vertex_at(57, 212);
         d.run(source, target);
         System.out.println(d.get_vertex_count());
-        assertEquals(d.get_vertex_count(), 46);
+        assertEquals(d.get_vertex_count(), 100);
     }
 
     @Test

@@ -18,9 +18,8 @@ public class Dijkstra implements SearchAlgorithm {
     private PriorityQ white;
     private final Graph g;
     private Vertex target;
-    private long max_used_memory;
-    private Runtime rt;
     private int visited;
+    private int max_opened;
 
     /**
      * Creates a Dijkstra algorithm instance
@@ -29,7 +28,6 @@ public class Dijkstra implements SearchAlgorithm {
      */
     public Dijkstra(Graph g) {
         this.g = g;
-        this.rt = Runtime.getRuntime();
     }
 
     /**
@@ -41,9 +39,9 @@ public class Dijkstra implements SearchAlgorithm {
     @Override
     public void run(Vertex source, Vertex target) {
         // Init datastructures and metrics
-        this.max_used_memory = 0;
         this.visited = 0;
         this.target = target;
+        this.max_opened = 0;
         parents = new VertexMap<>();
         white = new PriorityQ();
 
@@ -55,10 +53,6 @@ public class Dijkstra implements SearchAlgorithm {
         init_single_source(source);
 
         while (!white.is_empty()) {  // While we haven't explored all nodes
-            long used_mem = rt.totalMemory() - rt.freeMemory();
-            if (used_mem > max_used_memory) {
-                max_used_memory = used_mem;
-            }
             Vertex current = white.poll();
             if (current == null || current == target) {
                 return;
@@ -79,6 +73,7 @@ public class Dijkstra implements SearchAlgorithm {
                     // We found a better path! Update maps!
                     n.set_f(path_weight);
                     white.add(n);
+                    if (white.get_populated() > max_opened){max_opened = white.get_populated();}
                     parents.put(n, current);
                 }
             }
@@ -151,7 +146,10 @@ public class Dijkstra implements SearchAlgorithm {
         }
         return weight;
     }
-    public long get_used_mem() {
-        return max_used_memory;
+
+    @Override
+    public int get_max_open() {
+        return parents.get_size();
     }
+
 }

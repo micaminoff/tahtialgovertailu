@@ -19,13 +19,11 @@ public class AStar implements SearchAlgorithm {
     private PriorityQ open;
     private final Graph g;
     private Vertex target;
-    private long max_used_memory;
-    private final Runtime rt;
     private int visited;
+    private int max_q_size;
 
     public AStar(Graph g) {
         this.g = g;
-        this.rt = Runtime.getRuntime();
     }
 
     /**
@@ -44,13 +42,13 @@ public class AStar implements SearchAlgorithm {
     @Override
     public void run(Vertex source, Vertex target) {
         // Initialize datastructures and metrics
-        this.max_used_memory = 0;
         this.visited = 0;
         this.target = target;
+        this.max_q_size = 0;
         parents = new VertexMap<>();
         dist_from_source = new VertexMap<>();
         open = new PriorityQ();
-        
+
         if (source.get_cost() == Integer.MAX_VALUE) {
             // Sanity check, source cannot be impassable terrain
             parents.put(target, null);
@@ -64,10 +62,6 @@ public class AStar implements SearchAlgorithm {
 
         // While we still have potential vertices to explore
         while (!open.is_empty()) {
-            long used_mem = rt.totalMemory() - rt.freeMemory();
-            if (used_mem > max_used_memory) {
-                max_used_memory = used_mem;
-            }
             // Select the queue item with lowest f (vertex seemingly closest to goal)
             Vertex current = open.poll();
             if (current.get_cost() == Integer.MAX_VALUE) {
@@ -78,6 +72,7 @@ public class AStar implements SearchAlgorithm {
                 return;
             }
             for (Vertex v : g.get_vertices_neighbors(current)) {
+                if (open.get_populated() > max_q_size) {max_q_size = open.get_populated();}
                 // Total cost from source to this neighbor
                 if (v == null) {
                     continue;
@@ -130,7 +125,7 @@ public class AStar implements SearchAlgorithm {
         if (current == null) {
             return "No path available";
         }
-        String path = ""+current;
+        String path = "" + current;
         while (current != null) {
             path += " - " + current;
             current = (Vertex) parents.get(current);
@@ -156,9 +151,10 @@ public class AStar implements SearchAlgorithm {
         }
         return weight;
     }
-    
+
     @Override
-    public long get_used_mem() {
-        return max_used_memory;
+    public int get_max_open() {
+        return parents.get_size();
     }
+
 }

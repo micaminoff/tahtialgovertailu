@@ -23,5 +23,5 @@ public interface SearchAlgorithm {
     
     int get_vertex_count();
     
-    long get_used_mem();
+    int get_max_open();
 }
