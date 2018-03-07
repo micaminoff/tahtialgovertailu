@@ -32,7 +32,7 @@ public class GraphTest {
     
     @Before
     public void setUp() {
-        this.g = new Graph("./src/resources/brc100d.map");
+        this.g = new Graph("./resources/brc100d.map");
     }
     
     @After
@@ -110,7 +110,7 @@ public class GraphTest {
     
     @Test
     public void testGraphGen() {
-        Graph g2 = new Graph("./src/resources/brc100d.map");
+        Graph g2 = new Graph("./resources/brc100d.map");
         assertEquals(g2.get_vertex_at(56, 54).get_f(), 0);
     }
     

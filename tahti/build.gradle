@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
@@ -9,11 +13,8 @@ project.ext {
     junitVersion = '4.12'
 }
 
-dependencies {
-    testCompile "junit:junit:4.11"
-}
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 jacoco {
@@ -33,9 +34,13 @@ jacocoTestReport {
                         '**/StatCollector*',
 			'**/Main*',
                         '**/IDAStar*'
-                ])
-        })
+                    ])
+            })
     }
+}
+
+dependencies {
+    testCompile "junit:junit:4.11"
 }
 
 check.dependsOn jacocoTestReport
@@ -53,6 +58,6 @@ run {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'tahti.Main'
+        attributes 'Main-Class': 'tahti.App'
     }
 }

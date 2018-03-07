@@ -13,7 +13,7 @@ import tahti.datastructure.Graph;
 import tahti.datastructure.Vertex;
 
 /**
- * A class for running predifined graph searches
+ * A class for running graph searches
  *
  * @author Michael Aminoff
  */
@@ -21,7 +21,7 @@ public class StatCollector {
 
     public void routine_1() {
         String description = "Routine 1: Runs Dijkstra and A* 100 times on a 512x492 semi-open map, the correct path is 144 steps";
-        Graph g = new Graph("./src/resources/brc100d.map");
+        Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(149, 234);
         int reps = 100;
@@ -33,7 +33,7 @@ public class StatCollector {
 
     public void routine_2() {
         String description = "Routine 2: Runs Dijkstra and A* 50 times on a 512x492 semi-open map, the correct path is 496 steps";
-        Graph g = new Graph("./src/resources/brc100d.map");
+        Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(130, 350);
         Vertex target = g.get_vertex_at(270, 172);
         int reps = 50;
@@ -45,7 +45,7 @@ public class StatCollector {
 
     public void routine_3() {
         String description = "Routine 3: Runs all 75 times on a 512x492 semi-open map, correct path is 35 steps";
-        Graph g = new Graph("./src/resources/brc100d.map");
+        Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(65, 240);
         Vertex target = g.get_vertex_at(90, 240);
         int reps = 75;
@@ -58,7 +58,7 @@ public class StatCollector {
 
     public void routine_4() {
         String description = "Routine 4: Runs all 25 times on a 512x492 semi-open map, correct path is 36 steps";
-        Graph g = new Graph("./src/resources/brc100d.map");
+        Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(65, 240);
         Vertex target = g.get_vertex_at(90, 239);
         int reps = 25;
@@ -71,7 +71,7 @@ public class StatCollector {
 
     public void routine_5() {
         String description = "Routine 5: Runs all 5 times on a 512x492 semi-open map, correct path is 37 steps";
-        Graph g = new Graph("./src/resources/brc100d.map");
+        Graph g = new Graph("./resources/brc100d.map");
         Vertex source = g.get_vertex_at(65, 240);
         Vertex target = g.get_vertex_at(84, 238);
         int reps = 5;
@@ -84,7 +84,7 @@ public class StatCollector {
 
     public void routine_6() {
         String description = "Routine 6: Runs all 100 on a 512x512 mazelike map. Correct path is 8";
-        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Graph g = new Graph("./resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 1);
         Vertex target = g.get_vertex_at(1, 5);
         int reps = 10;
@@ -97,7 +97,7 @@ public class StatCollector {
 
     public void routine_7() {
         String description = "Routine 7: Runs all 50 times on a 512x512 mazelike map. Correct path is 34";
-        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Graph g = new Graph("./resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 1);
         Vertex target = g.get_vertex_at(1, 15);
         int reps = 50;
@@ -110,7 +110,7 @@ public class StatCollector {
 
     public void routine_8() {
         String description = "Routine 8: All algos 5 times on a 512x512 mazelike map. Correct path is 952";
-        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Graph g = new Graph("./resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 1);
         Vertex target = g.get_vertex_at(1, 33);
         int reps = 5;
@@ -123,7 +123,7 @@ public class StatCollector {
 
     public void routine_9() {
         String description = "Routine 9: Runs Dijkstra and AStar 5 times on a 512x512 mazelike map. Correct path length is 5164";
-        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Graph g = new Graph("./resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 5);
         Vertex target = g.get_vertex_at(511, 511);
         int reps = 50;
@@ -135,7 +135,7 @@ public class StatCollector {
     
     public void routine_10() {
         String description = "Routine 10: Runs all 5 times on a 512x512 mazelike map. Correct path length is 5164";
-        Graph g = new Graph("./src/resources/maze512-1-0.map");
+        Graph g = new Graph("./resources/maze512-1-0.map");
         Vertex source = g.get_vertex_at(1, 5);
         Vertex target = g.get_vertex_at(511, 511);
         int reps = 2;

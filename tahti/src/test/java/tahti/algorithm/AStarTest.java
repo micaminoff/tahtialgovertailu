@@ -37,7 +37,7 @@ public class AStarTest {
     
     @Before
     public void setUp() {
-        g = new Graph("./src/resources/brc100d.map");
+        g = new Graph("./resources/brc100d.map");
         a = new AStar(g);
     }
     
@@ -69,7 +69,7 @@ public class AStarTest {
     @Test
     public void testDisjointAreas() {
         System.out.println("run disjoint areas");
-        g = new Graph("./src/resources/AR0300SR.map");
+        g = new Graph("./resources/AR0300SR.map");
         a = new AStar(g);
         Vertex source = g.get_vertex_at(71, 368);
         Vertex target = g.get_vertex_at(158, 381);
