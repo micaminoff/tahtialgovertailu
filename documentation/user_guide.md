@@ -1,3 +1,5 @@
+**If you're not running this on Ukko or something comparable, don't run routine 10. If you do, just cancel it when you get bored."
+
 ### Executable jar
 * Go [here](https://github.com/micaminoff/tahtialgovertailu/releases)
 * Download `tahti.jar` and `resources.7z`
