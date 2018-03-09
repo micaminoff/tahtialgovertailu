@@ -53,6 +53,15 @@ public class IDAStarTest {
     }
     
     @Test
+    public void testRun_with_increasing_threshold() {
+        System.out.println("run, increase threshold");
+        Vertex source = g.get_vertex_at(65, 240);
+        Vertex target = g.get_vertex_at(90, 240);
+        ida.run(source, target);
+        assertEquals(35, ida.get_path_weight());
+    }
+    
+    @Test
     public void testImpassableStartError() {
         System.out.println("run impassable start");
         Vertex source = g.get_vertex_at(178, 457);
@@ -68,6 +77,15 @@ public class IDAStarTest {
         Vertex target = g.get_vertex_at(57, 212);
         ida.run(source, target);
         assertTrue(ida.get_path().equals("57,211 - 57,211 - 57,210 - 57,209 - 57,208"));
+    }
+    
+    @Test
+    public void testGetPathWeight() {
+        System.out.println("get path length");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        ida.run(source, target);
+        assertTrue(ida.get_path_weight() == 4);
     }
 
     @Test
@@ -85,7 +103,7 @@ public class IDAStarTest {
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(57, 212);
         ida.run(source, target);
-        assertEquals(ida.get_vertex_count(), 5);
+        assertEquals(ida.get_max_open(), 4);
     }
     
 }

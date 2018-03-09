@@ -120,7 +120,7 @@ public class DijkstraTest {
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(57, 212);
         d.run(source, target);
-        assertEquals(d.get_vertex_count(), 100);
+        assertEquals(d.get_max_open(), 56);
     }
 
 }

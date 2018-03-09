@@ -109,6 +109,6 @@ public class AStarTest {
         Vertex source = g.get_vertex_at(57, 208);
         Vertex target = g.get_vertex_at(57, 212);
         a.run(source, target);
-        assertEquals(a.get_vertex_count(), 16);
+        assertEquals(a.get_max_open(), 14);
     }
 }
