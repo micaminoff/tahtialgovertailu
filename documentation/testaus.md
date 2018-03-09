@@ -1,15 +1,24 @@
 ## Testing document
 
-#### Unit tests
-Code coverage can be seen [here](https://codecov.io/gh/micaminoff/tahtialgovertailu).
-Unit tests are still lacking in Graph and VertexMap. Low coverage in Algorithms is mostly due to untested (and hopefully unreacheable) failstates.
+### Unit tests
+Unit testing acihieved with JUnit and jacoco. This is validated in the Travis-CI build. The jacoco-report is then sent to codecov for easy analysis.
 
-#### Performance/Integration tests
-StatsCollector contains a few routines for doing automated performance testing.
-At the moment they receive an approx. 500x500 map and need to find two shortest paths. One is 144 steps long, the other is 496.
-Path weights testing incoming :smile:
-I also log how many nodes have been examined.
+Current coverage is 90%.
+Code coverage can be seen [here](https://codecov.io/gh/micaminoff/tahtialgovertailu).
+
+### Performance/Integration tests
+StatsCollector contains 10 routines for doing automated performance testing.
+Statscollector figures out running time, memory consumption and visited nodes for each algorithm.
+
+The program also allows for custom tasks and outputs performance data.
+
+### Performance test results
+I decided against making a graphical representation of the performance tests since the algorithms differ wildly in performance metrics. It's also difficult to craft a suitable amount of comparable scenarios for testing.
+Instead I offer a qualitative analysis.
+
+For this please visit [toteutus.md](https://github.com/micaminoff/tahtialgovertailu/blob/master/documentation/toteutus.md)
 
 #### Instructions
-To run the unit tests, cd to tahtialgovetailu/tahti and run `gradle test` or `gradle build`.
-To run the performance tests cd to /tahti and run `gradle run` or open the project in netbeans and run.
+* To run the unit tests, cd to tahtialgovetailu/tahti and run `gradle test` or `gradle build`.
+* To run the performance tests cd to /tahti and run `gradle run`.
+* NOTE that build.gradle requires at least version 3.0 of Gradle, so running the project in Netbeans with Gradle support won't work.
