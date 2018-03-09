@@ -33,7 +33,6 @@ jacocoTestReport {
                 fileTree(dir: it, exclude: [
                         '**/StatCollector*',
 			'**/App*',
-                        '**/IDAStar*',
 			'**/Console**',
 			'**/Stub**'
                     ])
