@@ -114,4 +114,13 @@ public class DijkstraTest {
         assertTrue(d.get_path_weight() == 4);
     }
 
+    @Test
+    public void testGetMaxOpen() {
+        System.out.println("get max open");
+        Vertex source = g.get_vertex_at(57, 208);
+        Vertex target = g.get_vertex_at(57, 212);
+        d.run(source, target);
+        assertEquals(d.get_vertex_count(), 100);
+    }
+
 }
